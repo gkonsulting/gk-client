@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Box,
     Badge,
@@ -7,7 +7,6 @@ import {
     IconButton,
     Stack,
     Text,
-    Image,
     Link,
 } from "@chakra-ui/core";
 import { useGetMovieFromUrl } from "../../utils/useGetMovieFromUrl";
@@ -18,13 +17,22 @@ import { useDeleteMovieMutation, useMeQuery } from "../../generated/graphql";
 import NextLink from "next/link";
 import { withApollo } from "../../utils/withApollo";
 import { useRouter } from "next/router";
+import ReactPlayer from "react-player";
 
 const Movie = ({}) => {
     const { data, error, loading } = useGetMovieFromUrl();
+    const [trailerUrl, setTrailerUrl] = useState<String>("");
     const [deleteMovie] = useDeleteMovieMutation();
     const { data: meData } = useMeQuery();
     const router = useRouter();
     userAuth(router.query.id as string);
+
+    const getTrailer = async (movie: string): Promise<void> => {
+        const movieTrailer = require("movie-trailer");
+        await movieTrailer(movie).then((res: string): void => {
+            setTrailerUrl(res);
+        });
+    };
 
     if (loading) {
         return (
@@ -41,7 +49,7 @@ const Movie = ({}) => {
     if (!data?.getMovie) {
         return <Box>could not find post</Box>;
     }
-
+    getTrailer(data!.getMovie!.title);
     return (
         <>
             <Navbar />
@@ -55,8 +63,17 @@ const Movie = ({}) => {
                         overflow="hidden"
                         m={5}
                     >
-                        <Flex h={540} w="100%" direction="column">
-                            <Image src={data.getMovie.poster} />
+                        <Flex
+                            align="center"
+                            h={380}
+                            w="100%"
+                            direction="column"
+                        >
+                            <ReactPlayer
+                                width="100%"
+                                controls={true}
+                                url={trailerUrl as string}
+                            />
                         </Flex>
 
                         <Box p="6">

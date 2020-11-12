@@ -1,4 +1,4 @@
-import { Button, Flex } from "@chakra-ui/core";
+import { Button, Flex, Text } from "@chakra-ui/core";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
@@ -28,6 +28,9 @@ export const updateMovie: React.FC<{}> = ({}) => {
             <>
                 <Navbar />
                 <Wrapper variant="small">
+                    <Text textAlign="center" fontSize="6xl">
+                        Update {data?.getMovie?.title}
+                    </Text>
                     <Formik
                         initialValues={{
                             title: movie?.title as string,

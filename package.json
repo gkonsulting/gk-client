@@ -21,6 +21,8 @@
     "gen-env-types": "^1.0.4",
     "graphql": "^15.4.0",
     "isomorphic-unfetch": "^3.1.0",
+    "movie-info": "^2.0.5",
+    "movie-trailer": "^2.0.6",
     "next": "^9.1.7",
     "next-apollo": "^5.0.4",
     "react": "^16.12.0",
