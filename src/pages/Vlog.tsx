@@ -16,8 +16,20 @@ const Vlog = ({}) => {
                     <Text textAlign="center" fontSize="6xl">
                         Vlog
                     </Text>
-                    <ReactPlayer url="https://www.dailymotion.com/video/x7na563"></ReactPlayer>
-                    <ReactPlayer url="https://www.dailymotion.com/video/x7na7ux"></ReactPlayer>
+                    <Flex>
+                        <Box m={1}>
+                            <ReactPlayer
+                                controls={true}
+                                url="https://www.dailymotion.com/video/x7na563"
+                            />
+                        </Box>
+                        <Box m={1}>
+                            <ReactPlayer
+                                controls={true}
+                                url="https://www.dailymotion.com/video/x7na7ux"
+                            />
+                        </Box>
+                    </Flex>
                 </Flex>
             </Wrapper>
         </>
