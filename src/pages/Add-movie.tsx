@@ -1,6 +1,6 @@
 import { Flex, Button } from "@chakra-ui/core";
 import { Formik, Form } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { InputField } from "../components/InputField";
 import { Navbar } from "../components/Navbar";
 import { Wrapper } from "../components/Wrapper";
