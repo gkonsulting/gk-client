@@ -12,7 +12,7 @@ import { withApollo } from "../../../utils/withApollo";
 
 export const updateMovie: React.FC<{}> = ({}) => {
     userAuth();
-    const { data, error, loading } = useGetMovieFromUrl();
+    const { data, loading } = useGetMovieFromUrl();
     const movie = data?.getMovie;
     const [updateMovie] = useUpdateMovieMutation();
     const router = useRouter();
