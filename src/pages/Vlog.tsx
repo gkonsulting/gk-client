@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text } from "@chakra-ui/core";
+import { Box, Flex, Text } from "@chakra-ui/core";
 import { Navbar } from "../components/Navbar";
 import { Wrapper } from "../components/Wrapper";
 import { userAuth } from "../utils/userAuth";
