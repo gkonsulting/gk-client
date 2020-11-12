@@ -3,13 +3,13 @@ import { Navbar } from "../components/Navbar";
 import { useGetMoviesQuery } from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
 import { Button, Flex, Text } from "@chakra-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import { withApollo } from "../utils/withApollo";
 import { userAuth } from "../utils/userAuth";
 
 const Movies = () => {
     userAuth();
-    const { data, loading, error, variables, fetchMore } = useGetMoviesQuery({
+    const { data, loading, variables, fetchMore } = useGetMoviesQuery({
         variables: {
             limit: 3,
             cursor: null,

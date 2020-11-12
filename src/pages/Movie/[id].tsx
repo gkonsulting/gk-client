@@ -23,9 +23,8 @@ const Movie = ({}) => {
     const { data, error, loading } = useGetMovieFromUrl();
     const [deleteMovie] = useDeleteMovieMutation();
     const { data: meData } = useMeQuery();
-    console.log(data?.getMovie?.id);
     const router = useRouter();
-    userAuth(router.query.id);
+    userAuth(router.query.id as string);
 
     if (loading) {
         return (
@@ -155,7 +154,7 @@ const Movie = ({}) => {
                                     onClick={() =>
                                         deleteMovie({
                                             variables: {
-                                                id: data.getMovie?.id,
+                                                id: data.getMovie!.id,
                                             },
                                             update: (cache) => {
                                                 cache.evict({

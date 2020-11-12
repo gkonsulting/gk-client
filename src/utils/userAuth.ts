@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMeQuery } from "../generated/graphql";
 
-export const userAuth = (id?: number) => {
+export const userAuth = (id?: string) => {
     const { data, loading } = useMeQuery();
     const router = useRouter();    
 
