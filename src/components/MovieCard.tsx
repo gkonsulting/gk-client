@@ -19,7 +19,7 @@ interface MovieCardProps {
     poster: string;
     rating: string;
     reason: string;
-    creator: Object;
+    creator: {id: string, username: string};
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({
