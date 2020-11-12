@@ -39,7 +39,7 @@ export const updateMovie: React.FC<{}> = ({}) => {
                         onSubmit={async (values) => {
                             await updateMovie({
                                 variables: {
-                                    id: movie?.id,
+                                    id: movie!.id,
                                     input: values,
                                 },
                             });
