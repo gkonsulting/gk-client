@@ -7,20 +7,20 @@ import { isServer } from "../utils/isServer";
 import { useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
 
-interface NavbarProps {}
-
-export const Navbar: React.FC<NavbarProps> = (props) => {
+export const Navbar: React.FC<{}> = (props) => {
     const [logout, { loading: logoutFetching }] = useLogoutMutation();
     const { data, loading } = useMeQuery({
         skip: isServer(), // fetcher ikke CS, bare SSR
     });
     const apolloClient = useApolloClient();
     const router = useRouter();
+    const [show, setShow] = React.useState(false);
 
-    let body = null;
+    let bodyUser = null;
+    let bodyActions = null;
     if (loading) {
     } else if (!data?.me) {
-        body = (
+        bodyUser = (
             <>
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Login">
@@ -43,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
             </>
         );
     } else {
-        body = (
+        bodyActions = (
             <>
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Vlog">
@@ -72,6 +72,10 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                         </Link>
                     </NextLink>
                 </Box>
+            </>
+        );
+        bodyUser = (
+            <>
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/User/[id]" as={`/User/${data.me.id}`}>
                         <Link _hover={{ textDecoration: "none" }}>
@@ -124,8 +128,11 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                     </NextLink>
                 </Heading>
             </Flex>
+            <Box ml={5} display="flex" flexGrow={1}>
+                {bodyActions}
+            </Box>
             <Flex justifyContent={"row-reverse"} alignItems={"center"}>
-                {body}
+                {bodyUser}
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <DarkModeSwitch />
                 </Box>
