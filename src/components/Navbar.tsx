@@ -14,7 +14,6 @@ export const Navbar: React.FC<{}> = (props) => {
     });
     const apolloClient = useApolloClient();
     const router = useRouter();
-    const [show, setShow] = React.useState(false);
 
     let bodyUser = null;
     let bodyActions = null;
