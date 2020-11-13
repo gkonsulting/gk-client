@@ -7,7 +7,7 @@
     "gen-env": "gen-env-types .env -o src/env.d.ts -e .",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000",
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
@@ -39,5 +39,8 @@
     "@graphql-codegen/typescript-urql": "^2.0.2",
     "@types/node": "^14.14.6",
     "typescript": "^4.0.5"
+  },
+  "proxy":{
+    "http://localhost:4000"
   }
 }
