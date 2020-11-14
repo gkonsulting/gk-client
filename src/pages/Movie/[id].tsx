@@ -106,10 +106,10 @@ const Movie = ({}) => {
                                 </Box>
 
                                 <Box h={75}>
-                                    {data.getMovie.description.length > 125
+                                    {data.getMovie.description.length > 250
                                         ? data.getMovie.description.slice(
                                               0,
-                                              125
+                                              250
                                           ) + "..."
                                         : data.getMovie.description}
                                 </Box>
@@ -152,10 +152,7 @@ const Movie = ({}) => {
                                               `"`
                                             : data.getMovie.creator.username.toUpperCase() +
                                               `: "` +
-                                              data.getMovie.reason.slice(
-                                                  0,
-                                                  50
-                                              ) +
+                                              data.getMovie.reason +
                                               `"`}
                                     </Text>
                                 </Box>
