@@ -56,6 +56,8 @@ export type Movie = {
   poster: Scalars['String'];
   reason: Scalars['String'];
   rating: Scalars['String'];
+  points: Scalars['Float'];
+  voteStatus?: Maybe<Scalars['Int']>;
 };
 
 export type Mutation = {
@@ -65,6 +67,7 @@ export type Mutation = {
   registerUser: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
+  vote: Scalars['Boolean'];
   addMovie: Movie;
   updateMovie?: Maybe<Movie>;
   deleteMovie: Scalars['Boolean'];
@@ -90,6 +93,12 @@ export type MutationRegisterUserArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
+};
+
+
+export type MutationVoteArgs = {
+  value: Scalars['Int'];
+  movieId: Scalars['Int'];
 };
 
 
@@ -136,7 +145,7 @@ export type MovieInput = {
 
 export type MovieInfoFragment = (
   { __typename?: 'Movie' }
-  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster'>
+  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username' | 'email'>
@@ -226,6 +235,17 @@ export type RegisterMutation = (
     { __typename?: 'UserResponse' }
     & RegularUserResponseFragment
   ) }
+);
+
+export type VoteMutationVariables = Exact<{
+  value: Scalars['Int'];
+  movieId: Scalars['Int'];
+}>;
+
+
+export type VoteMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'vote'>
 );
 
 export type AddMovieMutationVariables = Exact<{
@@ -318,6 +338,8 @@ export const MovieInfoFragmentDoc = gql`
   description
   reason
   poster
+  points
+  voteStatus
   creator {
     id
     username
@@ -516,6 +538,37 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const VoteDocument = gql`
+    mutation vote($value: Int!, $movieId: Int!) {
+  vote(value: $value, movieId: $movieId)
+}
+    `;
+export type VoteMutationFn = Apollo.MutationFunction<VoteMutation, VoteMutationVariables>;
+
+/**
+ * __useVoteMutation__
+ *
+ * To run a mutation, you first call `useVoteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVoteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [voteMutation, { data, loading, error }] = useVoteMutation({
+ *   variables: {
+ *      value: // value for 'value'
+ *      movieId: // value for 'movieId'
+ *   },
+ * });
+ */
+export function useVoteMutation(baseOptions?: Apollo.MutationHookOptions<VoteMutation, VoteMutationVariables>) {
+        return Apollo.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument, baseOptions);
+      }
+export type VoteMutationHookResult = ReturnType<typeof useVoteMutation>;
+export type VoteMutationResult = Apollo.MutationResult<VoteMutation>;
+export type VoteMutationOptions = Apollo.BaseMutationOptions<VoteMutation, VoteMutationVariables>;
 export const AddMovieDocument = gql`
     mutation addMovie($input: MovieInput!) {
   addMovie(input: $input) {

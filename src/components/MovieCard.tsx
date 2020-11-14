@@ -10,29 +10,33 @@ import {
     Link,
 } from "@chakra-ui/core";
 import React from "react";
-import { useDeleteMovieMutation, useMeQuery } from "../generated/graphql";
+import {
+    MovieInfoFragment,
+    useDeleteMovieMutation,
+    useMeQuery,
+} from "../generated/graphql";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { VoteField } from "./VoteField";
+// interface MovieCardProps {
+//     id: number;
+//     title: string;
+//     description: string;
+//     poster: string;
+//     rating: string;
+//     reason: string;
+//     creator: { id: number; username: string };
+// }
+
 interface MovieCardProps {
-    id: number;
-    title: string;
-    description: string;
-    poster: string;
-    rating: string;
-    reason: string;
-    creator: {id: number, username: string};
+    movie: MovieInfoFragment;
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({
-    id,
-    title,
-    description,
-    poster,
-    rating,
-    reason,
-    creator,
-}) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     const [deleteMovie] = useDeleteMovieMutation();
     const { data } = useMeQuery();
+    const router = useRouter();
+    console.log(movie);
 
     return (
         <Box
@@ -43,17 +47,17 @@ export const MovieCard: React.FC<MovieCardProps> = ({
             overflow="hidden"
             m={5}
         >
-            <NextLink href="/Movie/[id]" as={`/Movie/${id}`}>
+            <NextLink href="/Movie/[id]" as={`/Movie/${movie?.id}`}>
                 <Link _hover={{ textDecoration: "none" }}>
                     <Flex h={230} w="100%" direction="column">
-                        <Image src={poster} />
+                        <Image src={movie?.poster} />
                     </Flex>
 
                     <Box p="6">
                         <Stack spacing={4}>
                             <Box lineHeight="tight">
                                 <Text fontWeight="bold" fontSize="3xl">
-                                    {title}
+                                    {movie?.title}
                                 </Text>
                             </Box>
                             <Box d="flex" alignItems="baseline">
@@ -73,14 +77,14 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                             >
                                 <Text>
                                     Suggested by:{" "}
-                                    {creator.username.toUpperCase()}
+                                    {movie?.creator.username.toUpperCase()}
                                 </Text>
                             </Box>
 
                             <Box h={75}>
-                                {description.length > 115
-                                    ? description.slice(0, 115) + "..."
-                                    : description}
+                                {movie?.description.length > 115
+                                    ? movie?.description.slice(0, 115) + "..."
+                                    : movie?.description}
                             </Box>
 
                             <Box d="flex" alignItems="center">
@@ -91,7 +95,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                                             name="star"
                                             key={i}
                                             color={
-                                                i < parseInt(rating)
+                                                i < parseInt(movie?.rating)
                                                     ? "teal.500"
                                                     : "gray.300"
                                             }
@@ -99,7 +103,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                                     ))}
                                 <Text ml={2} color="teal.500" fontWeight="bold">
                                     {" "}
-                                    {" " + rating + "/10"}
+                                    {" " + movie?.rating + "/10"}
                                 </Text>
                             </Box>
                             <Box lineHeight="tight">
@@ -107,14 +111,14 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                                     Why should we watch this movie?
                                 </Text>
                                 <Text fontSize="md">
-                                    {reason.length < 50
-                                        ? creator.username.toUpperCase() +
+                                    {movie?.reason.length < 50
+                                        ? movie?.creator.username.toUpperCase() +
                                           `: "` +
-                                          reason +
+                                          movie?.reason +
                                           `"`
-                                        : creator.username.toUpperCase() +
+                                        : movie?.creator.username.toUpperCase() +
                                           `: "` +
-                                          reason.slice(0, 50) +
+                                          movie?.reason.slice(0, 50) +
                                           `"`}
                                 </Text>
                             </Box>
@@ -122,44 +126,49 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                     </Box>
                 </Link>
             </NextLink>
-            {data?.me?.id !== creator.id ? null : (
-                <Flex pr="6" flexDirection="row-reverse">
-                    <IconButton
-                        icon="delete"
-                        size="sm"
-                        variantColor="teal"
-                        aria-label="Delete Movie"
-                        onClick={() =>
-                            deleteMovie({
-                                variables: {
-                                    id: id,
-                                },
-                                update: (cache) => {
-                                    cache.evict({
-                                        id: "Movie:" + id,
-                                    });
-                                },
-                            })
-                        }
-                        w={10}
-                    />
-                    <NextLink
-                        href="/Movie/Update/[id]"
-                        as={`/Movie/Update/${id}`}
-                    >
-                        <Link>
-                            <IconButton
-                                icon="edit"
-                                size="sm"
-                                variantColor="teal"
-                                aria-label="Update Movie"
-                                w={10}
-                                mr={3}
-                            />
-                        </Link>
-                    </NextLink>
-                </Flex>
-            )}
+            <Flex justify="space-between">
+                <VoteField movie={movie} />
+                {data?.me?.id !== movie?.creator.id ? null : (
+                    <Flex pr={6}>
+                        <NextLink
+                            href="/Movie/Update/[id]"
+                            as={`/Movie/Update/${movie?.id}`}
+                        >
+                            <Link>
+                                <IconButton
+                                    icon="edit"
+                                    size="sm"
+                                    variantColor="teal"
+                                    aria-label="Update Movie"
+                                    w={10}
+                                    mr={3}
+                                />
+                            </Link>
+                        </NextLink>
+                        <IconButton
+                            icon="delete"
+                            size="sm"
+                            variantColor="teal"
+                            aria-label="Delete Movie"
+                            onClick={async () =>
+                                await deleteMovie({
+                                    variables: {
+                                        id: movie?.id,
+                                    },
+                                    update: (cache) => {
+                                        cache.evict({
+                                            id: "Movie:" + movie?.id,
+                                        });
+                                    },
+                                }).then(() => {
+                                    router.push("/Movies");
+                                })
+                            }
+                            w={10}
+                        />
+                    </Flex>
+                )}
+            </Flex>
         </Box>
     );
 };

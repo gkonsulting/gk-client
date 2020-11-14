@@ -42,17 +42,7 @@ const Movies = () => {
                                               align="center"
                                               key={i}
                                           >
-                                              <MovieCard
-                                                  id={movie.id}
-                                                  title={movie.title}
-                                                  poster={movie.poster}
-                                                  description={
-                                                      movie.description
-                                                  }
-                                                  rating={movie.rating}
-                                                  reason={movie.reason}
-                                                  creator={movie.creator}
-                                              />
+                                              <MovieCard movie={movie} />
                                           </Flex>
                                       )
                                   )}

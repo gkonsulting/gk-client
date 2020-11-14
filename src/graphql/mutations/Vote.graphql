@@ -1,0 +1,3 @@
+mutation vote($value: Int!, $movieId: Int!) {
+    vote(value: $value, movieId: $movieId)
+}
