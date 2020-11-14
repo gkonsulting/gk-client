@@ -18,6 +18,7 @@ import NextLink from "next/link";
 import { withApollo } from "../../utils/withApollo";
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
+import { VoteField } from "../../components/VoteField";
 
 const Movie = ({}) => {
     const { data, error, loading } = useGetMovieFromUrl();
@@ -160,47 +161,53 @@ const Movie = ({}) => {
                                 </Box>
                             </Stack>
                         </Box>
-
-                        {meData?.me?.id !== data.getMovie.creator.id ? null : (
-                            <Flex pr="6" flexDirection="row-reverse">
-                                <IconButton
-                                    icon="delete"
-                                    size="sm"
-                                    variantColor="teal"
-                                    aria-label="Delete Movie"
-                                    onClick={() =>
-                                        deleteMovie({
-                                            variables: {
-                                                id: data.getMovie!.id,
-                                            },
-                                            update: (cache) => {
-                                                cache.evict({
-                                                    id:
-                                                        "Movie:" +
-                                                        data.getMovie?.id,
-                                                });
-                                            },
-                                        })
-                                    }
-                                    w={10}
-                                />
-                                <NextLink
-                                    href="/Movie/Update/[id]"
-                                    as={`/Movie/Update/${data.getMovie.id}`}
-                                >
-                                    <Link>
-                                        <IconButton
-                                            icon="edit"
-                                            size="sm"
-                                            variantColor="teal"
-                                            aria-label="Update Movie"
-                                            w={10}
-                                            mr={3}
-                                        />
-                                    </Link>
-                                </NextLink>
-                            </Flex>
-                        )}
+                        <Flex justify="space-between">
+                            <VoteField movie={data.getMovie} />
+                            {meData?.me?.id !==
+                            data.getMovie?.creator.id ? null : (
+                                <Flex pr={6}>
+                                    <NextLink
+                                        href="/Movie/Update/[id]"
+                                        as={`/Movie/Update/${data.getMovie?.id}`}
+                                    >
+                                        <Link>
+                                            <IconButton
+                                                icon="edit"
+                                                size="sm"
+                                                variantColor="teal"
+                                                aria-label="Update Movie"
+                                                w={10}
+                                                mr={3}
+                                            />
+                                        </Link>
+                                    </NextLink>
+                                    <IconButton
+                                        icon="delete"
+                                        size="sm"
+                                        variantColor="teal"
+                                        aria-label="Delete Movie"
+                                        onClick={async () =>
+                                            await deleteMovie({
+                                                variables: {
+                                                    id: data.getMovie
+                                                        ?.id as number,
+                                                },
+                                                update: (cache) => {
+                                                    cache.evict({
+                                                        id:
+                                                            "Movie:" +
+                                                            data.getMovie?.id,
+                                                    });
+                                                },
+                                            }).then(() => {
+                                                router.push("/Movies");
+                                            })
+                                        }
+                                        w={10}
+                                    />
+                                </Flex>
+                            )}
+                        </Flex>
                     </Box>
                 </Flex>
             </Wrapper>
