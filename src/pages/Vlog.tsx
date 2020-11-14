@@ -7,7 +7,6 @@ import { withApollo } from "../utils/withApollo";
 import ReactPlayer from "react-player";
 
 const Vlog = ({}) => {
-    userAuth();
     return (
         <>
             <Navbar />

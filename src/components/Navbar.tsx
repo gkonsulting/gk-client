@@ -19,12 +19,25 @@ export const Navbar: React.FC<{}> = (props) => {
     let bodyActions = null;
     if (loading) {
     } else if (!data?.me) {
+        bodyActions = (
+            <>
+                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                    <NextLink href="/Vlog">
+                        <Link _hover={{ textDecoration: "none" }}>
+                            <Button variantColor="teal" border="1px">
+                                Vlog
+                            </Button>
+                        </Link>
+                    </NextLink>
+                </Box>
+            </>
+        );
         bodyUser = (
             <>
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Login">
                         <Link _hover={{ textDecoration: "none" }}>
-                            <Button bg="transparent" border="1px">
+                            <Button variantColor="teal" border="1px">
                                 Login
                             </Button>
                         </Link>
@@ -33,7 +46,7 @@ export const Navbar: React.FC<{}> = (props) => {
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Register">
                         <Link _hover={{ textDecoration: "none" }}>
-                            <Button bg="transparent" border="1px">
+                            <Button variantColor="teal" border="1px">
                                 Register
                             </Button>
                         </Link>
