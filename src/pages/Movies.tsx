@@ -6,6 +6,7 @@ import { Button, Flex, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
 import { userAuth } from "../utils/userAuth";
+import Loader from "react-loader-spinner";
 
 const Movies = () => {
     userAuth();
@@ -29,7 +30,15 @@ const Movies = () => {
                     Movies
                 </Text>
                 {!data && loading ? (
-                    <div>Loading...</div>
+                    <Flex justify="center" align="center">
+                        <Loader
+                            type="Puff"
+                            color="#00BFFF"
+                            height={100}
+                            width={100}
+                            timeout={3000} //3 secs
+                        />
+                    </Flex>
                 ) : (
                     <>
                         <Flex direction="row" wrap="wrap" justify="center">

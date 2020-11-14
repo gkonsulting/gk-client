@@ -19,6 +19,7 @@ import { withApollo } from "../../utils/withApollo";
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
 import { VoteField } from "../../components/VoteField";
+import Loader from "react-loader-spinner";
 
 const Movie = ({}) => {
     const { data, error, loading } = useGetMovieFromUrl();
@@ -37,9 +38,15 @@ const Movie = ({}) => {
 
     if (loading) {
         return (
-            <Box>
-                <div>loading...</div>
-            </Box>
+            <Flex justify="center">
+                <Loader
+                    type="Puff"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    timeout={3000} //3 secs
+                />
+            </Flex>
         );
     }
 
