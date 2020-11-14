@@ -86,9 +86,9 @@ export const Navbar: React.FC<{}> = (props) => {
                 </Box>
                 <Box mt={{ base: 4, md: 0 }} mr={5}>
                     <Button
-                        onClick={() => {
-                            logout();
-                            apolloClient.resetStore();
+                        onClick={async () => {
+                            await logout();
+                            await apolloClient.resetStore();
                             router.push("/Login");
                         }}
                         isLoading={logoutFetching}
