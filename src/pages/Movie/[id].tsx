@@ -58,7 +58,7 @@ const Movie = ({}) => {
                 <Flex direction="row" wrap="wrap" justify="center">
                     <Box
                         w="6xl"
-                        h={1000}
+                        h={830}
                         borderWidth="1px"
                         rounded="lg"
                         overflow="hidden"
