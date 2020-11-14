@@ -41,7 +41,7 @@ const Movies = () => {
                     </Flex>
                 ) : (
                     <>
-                        <Flex direction="row" wrap="wrap" justify="center">
+                        <Flex direction="row" wrap="wrap" justify="space-evenly">
                             {!data
                                 ? null
                                 : data.getMovies.movies.map((movie, i) =>

@@ -45,7 +45,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
             borderWidth="1px"
             rounded="lg"
             overflow="hidden"
-            m={5}
         >
             <Flex direction="column" justify="space-between">
                 <NextLink href="/Movie/[id]" as={`/Movie/${movie?.id}`}>
