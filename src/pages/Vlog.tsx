@@ -9,25 +9,23 @@ const Vlog = ({}) => {
     return (
         <>
             <Navbar />
-            <Wrapper variant="small">
-                <Flex direction="row" wrap="wrap" justify="center">
-                    <Text textAlign="center" fontSize="6xl">
-                        Vlog
-                    </Text>
-                    <Flex>
-                        <Box m={1}>
-                            <ReactPlayer
-                                controls={true}
-                                url="https://www.dailymotion.com/video/x7na563"
-                            />
-                        </Box>
-                        <Box m={1}>
-                            <ReactPlayer
-                                controls={true}
-                                url="https://www.dailymotion.com/video/x7na7ux"
-                            />
-                        </Box>
-                    </Flex>
+            <Wrapper>
+                <Text textAlign="center" fontSize="6xl">
+                    Vlog
+                </Text>
+                <Flex direction="row" wrap="wrap" justify="space-evenly">
+                    <Box m={1}>
+                        <ReactPlayer
+                            controls={true}
+                            url="https://www.dailymotion.com/video/x7na563"
+                        />
+                    </Box>
+                    <Box m={1}>
+                        <ReactPlayer
+                            controls={true}
+                            url="https://www.dailymotion.com/video/x7na7ux"
+                        />
+                    </Box>
                 </Flex>
             </Wrapper>
         </>
