@@ -77,7 +77,7 @@ export const VoteField: React.FC<VoteFieldProps> = ({ movie }) => {
                 variantColor={movie.voteStatus === 1 ? "green" : undefined}
                 isLoading={loadingState === "upVote-loading"}
                 aria-label="upVote movie"
-                icon="chevron-up"
+                icon="triangle-up"
                 size="sm"
             />
             {movie.points}
@@ -100,7 +100,7 @@ export const VoteField: React.FC<VoteFieldProps> = ({ movie }) => {
                 variantColor={movie.voteStatus === -1 ? "red" : undefined}
                 isLoading={loadingState === "downVote-loading"}
                 aria-label="downVote movie"
-                icon="chevron-down"
+                icon="triangle-down"
                 size="sm"
             />
         </Flex>
