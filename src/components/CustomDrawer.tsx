@@ -9,6 +9,7 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
+    Flex,
     IconButton,
     Link,
     Stack,
@@ -19,6 +20,7 @@ import React, { useRef } from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
 import NextLink from "next/link";
+import { DarkModeSwitch } from "./DarkModeSwitch";
 
 export const CustomDrawer: React.FC<{}> = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -143,7 +145,9 @@ export const CustomDrawer: React.FC<{}> = () => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>GK</DrawerHeader>
-
+                        <Flex justify="center">
+                            <DarkModeSwitch />
+                        </Flex>
                         <DrawerBody>{bodyActions}</DrawerBody>
 
                         <DrawerFooter mb="100px">{bodyUser}</DrawerFooter>
