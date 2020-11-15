@@ -33,6 +33,8 @@ function MyApp({ Component, pageProps }: any) {
                 />
 
                 <meta name="apple-mobile-web-app-capable" content="no"/>
+                <title>GK</title>
+
             </Head>
             <ThemeProvider theme={theme}>
                 <ColorModeProvider>
