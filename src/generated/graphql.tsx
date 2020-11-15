@@ -36,6 +36,7 @@ export type User = {
   updatedAt: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
+  secret: Scalars['String'];
 };
 
 export type PaginatedMovies = {
@@ -133,6 +134,7 @@ export type UserCredentials = {
   email: Scalars['String'];
   username: Scalars['String'];
   password: Scalars['String'];
+  secret: Scalars['String'];
 };
 
 export type MovieInput = {
@@ -175,7 +177,7 @@ export type RegularUserResponseFragment = (
 
 export type UserInfoFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'username' | 'email'>
+  & Pick<User, 'id' | 'username' | 'email' | 'secret'>
 );
 
 export type ChangePasswordMutationVariables = Exact<{
@@ -368,6 +370,7 @@ export const UserInfoFragmentDoc = gql`
   id
   username
   email
+  secret
 }
     `;
 export const RegularUserResponseFragmentDoc = gql`

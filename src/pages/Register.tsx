@@ -18,7 +18,12 @@ const Register: React.FC<RegisterProps> = ({}) => {
             <Navbar />
             <Wrapper variant="small">
                 <Formik
-                    initialValues={{ email: "", username: "", password: "" }}
+                    initialValues={{
+                        email: "",
+                        username: "",
+                        password: "",
+                        secret: "",
+                    }}
                     onSubmit={async (values, { setErrors }) => {
                         const res = await regiserUser({
                             variables: { options: values },
@@ -41,20 +46,26 @@ const Register: React.FC<RegisterProps> = ({}) => {
                     {({ isSubmitting }) => (
                         <Form>
                             <InputField
+                                name="username"
+                                placeholder="Username"
+                                label="Username"
+                            />
+                            <InputField
                                 name="email"
                                 placeholder="Email"
                                 label="Email"
                                 type="email"
                             />
                             <InputField
-                                name="username"
-                                placeholder="Username"
-                                label="Username"
-                            />
-                            <InputField
                                 name="password"
                                 placeholder="Password"
                                 label="Password"
+                                type="password"
+                            />
+                            <InputField
+                                name="secret"
+                                placeholder="Secret key"
+                                label="Secret"
                                 type="password"
                             />
                             <Button
