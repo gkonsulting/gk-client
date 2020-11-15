@@ -7,7 +7,7 @@ import { useMeQuery } from "../../generated/graphql";
 import { withApollo } from "../../utils/withApollo";
 
 const Movie = ({}) => {
-    userAuth();
+    // userAuth();
     const { data: meData } = useMeQuery();
 
     return (

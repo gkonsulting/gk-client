@@ -11,7 +11,7 @@ import { userAuth } from "../../../utils/userAuth";
 import { withApollo } from "../../../utils/withApollo";
 
 export const updateMovie: React.FC<{}> = ({}) => {
-    userAuth();
+    // userAuth();
     const { data, loading } = useGetMovieFromUrl();
     const movie = data?.getMovie;
     const [updateMovie] = useUpdateMovieMutation();

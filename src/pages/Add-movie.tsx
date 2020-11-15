@@ -18,7 +18,7 @@ interface MovieType {
 }
 
 const AddMovie: React.FC<{}> = ({}) => {
-    userAuth(); // Sjekker om bruker er logget inn, hvis ikke navigeres brukeren til login
+    // userAuth(); // Sjekker om bruker er logget inn, hvis ikke navigeres brukeren til login
     const [addMovie] = useAddMovieMutation();
     const [inputVisibility, setInputVisibility] = useState<Boolean>(true);
 

@@ -27,7 +27,7 @@ const Movie = ({}) => {
     const [deleteMovie] = useDeleteMovieMutation();
     const { data: meData } = useMeQuery();
     const router = useRouter();
-    userAuth(router.query.id as string);
+    // userAuth(router.query.id as string);
 
     const getTrailer = async (movie: string): Promise<void> => {
         const movieTrailer = require("movie-trailer");

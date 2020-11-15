@@ -10,7 +10,7 @@ import Loader from "react-loader-spinner";
 import NextLink from "next/link";
 
 const Movies = () => {
-    userAuth();
+    // userAuth();
     const { data, loading, variables, fetchMore } = useGetMoviesQuery({
         variables: {
             limit: 3,
