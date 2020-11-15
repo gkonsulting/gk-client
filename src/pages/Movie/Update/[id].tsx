@@ -7,11 +7,11 @@ import { Navbar } from "../../../components/Navbar";
 import { Wrapper } from "../../../components/Wrapper";
 import { useUpdateMovieMutation } from "../../../generated/graphql";
 import { useGetMovieFromUrl } from "../../../utils/useGetMovieFromUrl";
-// import { userAuth } from "../../../utils/userAuth";
+import { userAuth } from "../../../utils/userAuth";
 import { withApollo } from "../../../utils/withApollo";
 
 export const updateMovie: React.FC<{}> = ({}) => {
-    // userAuth();
+    userAuth();
     const { data, loading } = useGetMovieFromUrl();
     const movie = data?.getMovie;
     const [updateMovie] = useUpdateMovieMutation();

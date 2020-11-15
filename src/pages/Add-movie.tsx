@@ -6,7 +6,7 @@ import { Navbar } from "../components/Navbar";
 import { Wrapper } from "../components/Wrapper";
 import { useAddMovieMutation } from "../generated/graphql";
 import { useRouter } from "next/router";
-// import { userAuth } from "../utils/userAuth";
+import { userAuth } from "../utils/userAuth";
 import { withApollo } from "../utils/withApollo";
 
 interface MovieType {
@@ -18,7 +18,7 @@ interface MovieType {
 }
 
 const AddMovie: React.FC<{}> = ({}) => {
-    // userAuth(); // Sjekker om bruker er logget inn, hvis ikke navigeres brukeren til login
+    userAuth(); // Sjekker om bruker er logget inn, hvis ikke navigeres brukeren til login
     const [addMovie] = useAddMovieMutation();
     const [inputVisibility, setInputVisibility] = useState<Boolean>(true);
 
