@@ -65,7 +65,6 @@ const Movie = ({}) => {
                 <Flex direction="row" wrap="wrap" justify="center">
                     <Box
                         w="6xl"
-                        h={830}
                         borderWidth="1px"
                         rounded="lg"
                         overflow="hidden"
@@ -112,14 +111,7 @@ const Movie = ({}) => {
                                     </Text>
                                 </Box>
 
-                                <Box h={75}>
-                                    {data.getMovie.description.length > 250
-                                        ? data.getMovie.description.slice(
-                                              0,
-                                              250
-                                          ) + "..."
-                                        : data.getMovie.description}
-                                </Box>
+                                <Box>{data.getMovie.description}</Box>
 
                                 <Box d="flex" alignItems="center">
                                     {Array(10)
@@ -165,7 +157,7 @@ const Movie = ({}) => {
                                 </Box>
                             </Stack>
                         </Box>
-                        <Flex justify="space-between">
+                        <Flex justify="space-between" mb={5}>
                             <VoteField movie={data.getMovie} />
                             {meData?.me?.id !==
                             data.getMovie?.creator.id ? null : (
