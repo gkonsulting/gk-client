@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/core";
 import { Navbar } from "../../components/Navbar";
 import { Wrapper } from "../../components/Wrapper";
-import { userAuth } from "../../utils/userAuth";
+// import { userAuth } from "../../utils/userAuth";
 import { useMeQuery } from "../../generated/graphql";
 import { withApollo } from "../../utils/withApollo";
 

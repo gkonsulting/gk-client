@@ -5,7 +5,7 @@ import { MovieCard } from "../components/MovieCard";
 import { Button, Flex, Link, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
-import { userAuth } from "../utils/userAuth";
+// import { userAuth } from "../utils/userAuth";
 import Loader from "react-loader-spinner";
 import NextLink from "next/link";
 

@@ -12,7 +12,7 @@ import {
 import { useGetMovieFromUrl } from "../../utils/useGetMovieFromUrl";
 import { Navbar } from "../../components/Navbar";
 import { Wrapper } from "../../components/Wrapper";
-import { userAuth } from "../../utils/userAuth";
+// import { userAuth } from "../../utils/userAuth";
 import { useDeleteMovieMutation, useMeQuery } from "../../generated/graphql";
 import NextLink from "next/link";
 import { withApollo } from "../../utils/withApollo";

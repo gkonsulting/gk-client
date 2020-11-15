@@ -6,7 +6,7 @@ import { Navbar } from "../components/Navbar";
 import { Wrapper } from "../components/Wrapper";
 import { useAddMovieMutation } from "../generated/graphql";
 import { useRouter } from "next/router";
-import { userAuth } from "../utils/userAuth";
+// import { userAuth } from "../utils/userAuth";
 import { withApollo } from "../utils/withApollo";
 
 interface MovieType {
