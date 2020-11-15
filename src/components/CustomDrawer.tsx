@@ -136,6 +136,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                 placement="right"
                 onClose={onClose}
                 finalFocusRef={btnRef}
+                // isFullHeight={true}
             >
                 <DrawerOverlay>
                     <DrawerContent>
