@@ -1,18 +1,32 @@
-import React from "react";
-import { Box, Heading, Flex, Text, Button, Link } from "@chakra-ui/core";
-import { DarkModeSwitch } from "./DarkModeSwitch";
-import NextLink from "next/link";
+import { useApolloClient } from "@apollo/client";
+import {
+    Box,
+    Button,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    Flex,
+    IconButton,
+    Input,
+    Link,
+    Stack,
+    useDisclosure,
+} from "@chakra-ui/core";
+import { useRouter } from "next/router";
+import React, { useRef } from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
-import { useApolloClient } from "@apollo/client";
-import { useRouter } from "next/router";
-import { CustomDrawer } from "./CustomDrawer";
-import useWindowSize from "../utils/useWindowSize";
+import NextLink from "next/link";
 
-export const Navbar: React.FC<{}> = (props) => {
+export const CustomDrawer: React.FC<{}> = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [logout, { loading: logoutFetching }] = useLogoutMutation();
-    const size = useWindowSize();
 
+    const btnRef = useRef() as React.RefObject<HTMLElement>;
     const { data, loading } = useMeQuery({
         skip: isServer(), // fetcher ikke CS, bare SSR
     });
@@ -21,20 +35,21 @@ export const Navbar: React.FC<{}> = (props) => {
 
     let bodyUser = null;
     let bodyActions = null;
+
     if (loading) {
     } else if (!data?.me) {
         bodyActions = (
-            <>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+            <Stack spacing={5}>
+                <Box w="100%" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Vlog">
                         <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
+                            <Button w="100%" variantColor="teal" border="1px">
                                 Vlog
                             </Button>
                         </Link>
                     </NextLink>
                 </Box>
-            </>
+            </Stack>
         );
         bodyUser = (
             <>
@@ -60,26 +75,26 @@ export const Navbar: React.FC<{}> = (props) => {
         );
     } else {
         bodyActions = (
-            <>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+            <Stack spacing={5}>
+                <Box w="100%" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Vlog">
                         <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
+                            <Button w="100%" variantColor="teal" border="1px">
                                 Vlog
                             </Button>
                         </Link>
                     </NextLink>
                 </Box>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box w="100%" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Movies">
                         <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
+                            <Button w="100%" variantColor="teal" border="1px">
                                 Movies
                             </Button>
                         </Link>
                     </NextLink>
                 </Box>
-            </>
+            </Stack>
         );
         bodyUser = (
             <>
@@ -110,46 +125,31 @@ export const Navbar: React.FC<{}> = (props) => {
         );
     }
     return (
-        <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="black"
-            position="sticky"
-            top={0}
-            zIndex={1}
-            {...props}
-        >
-            <Flex align="center" mr={5}>
-                <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
-                    <NextLink href="/">
-                        <NextLink href="/">
-                            <Link _hover={{ textDecoration: "none" }}>
-                                <Text fontSize={36} color="teal.500">
-                                    GK
-                                </Text>
-                            </Link>
-                        </NextLink>
-                    </NextLink>
-                </Heading>
-            </Flex>
-            {size.width < 650 ? (
-                <CustomDrawer></CustomDrawer>
-            ) : (
-                <>
-                    <Box ml={5} display="flex" flexGrow={1}>
-                        {bodyActions}
-                    </Box>
-                    <Flex justifyContent={"row-reverse"} alignItems={"center"}>
-                        {bodyUser}
-                        <Box mt={{ base: 4, md: 0 }} mr={5}>
-                            <DarkModeSwitch />
-                        </Box>
-                    </Flex>
-                </>
-            )}
-        </Flex>
+        <>
+            <IconButton
+                icon="drag-handle"
+                ref={btnRef}
+                variantColor="teal"
+                aria-label="settings"
+                onClick={onOpen}
+            />
+            <Drawer
+                isOpen={isOpen}
+                placement="right"
+                onClose={onClose}
+                finalFocusRef={btnRef}
+            >
+                <DrawerOverlay>
+                    <DrawerContent>
+                        <DrawerCloseButton />
+                        <DrawerHeader>GK</DrawerHeader>
+
+                        <DrawerBody>{bodyActions}</DrawerBody>
+
+                        <DrawerFooter>{bodyUser}</DrawerFooter>
+                    </DrawerContent>
+                </DrawerOverlay>
+            </Drawer>
+        </>
     );
 };

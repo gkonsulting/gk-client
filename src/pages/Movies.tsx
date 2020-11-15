@@ -2,11 +2,12 @@ import { Wrapper } from "../components/Wrapper";
 import { Navbar } from "../components/Navbar";
 import { useGetMoviesQuery } from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
-import { Button, Flex, Text } from "@chakra-ui/core";
+import { Box, Button, Flex, Link, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
 import { userAuth } from "../utils/userAuth";
 import Loader from "react-loader-spinner";
+import NextLink from "next/link";
 
 const Movies = () => {
     userAuth();
@@ -26,9 +27,18 @@ const Movies = () => {
         <>
             <Navbar />
             <Wrapper>
-                <Text textAlign="center" fontSize="6xl">
-                    Movies
-                </Text>
+                <Flex mb="5" direction="column" align="center" justify="center">
+                    <Text textAlign="center" fontSize="6xl">
+                        Movies
+                    </Text>
+                    <NextLink href="/Add-movie">
+                        <Link _hover={{ textDecoration: "none" }}>
+                            <Button variantColor="teal" border="1px">
+                                Add movie
+                            </Button>
+                        </Link>
+                    </NextLink>
+                </Flex>
                 {!data && loading ? (
                     <Flex justify="center" align="center">
                         <Loader
@@ -41,7 +51,11 @@ const Movies = () => {
                     </Flex>
                 ) : (
                     <>
-                        <Flex direction="row" wrap="wrap" justify="space-evenly">
+                        <Flex
+                            direction="row"
+                            wrap="wrap"
+                            justify="space-evenly"
+                        >
                             {!data
                                 ? null
                                 : data.getMovies.movies.map((movie, i) =>

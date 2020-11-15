@@ -36,7 +36,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     const [deleteMovie] = useDeleteMovieMutation();
     const { data } = useMeQuery();
     const router = useRouter();
-    console.log(movie);
 
     return (
         <Box
