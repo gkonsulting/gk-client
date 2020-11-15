@@ -50,7 +50,7 @@ const AddMovie: React.FC<{}> = ({}) => {
                             const movieInfo = require("movie-info");
                             await movieInfo(values.title).then(
                                 (res: MovieType): void => {
-                                    setInputVisibility(false);
+                                    setInputVisibility(!inputVisibility);
                                     values.title = res.title!;
                                     values.description = res.overview;
                                     values.poster =
@@ -94,7 +94,7 @@ const AddMovie: React.FC<{}> = ({}) => {
                                 placeholder="Why do you want to watch this movie?"
                                 label="Reason why?"
                             />
-                            <Flex mt={4}>
+                            <Flex justify="space-between" mt={4}>
                                 {inputVisibility ? (
                                     <Button
                                         isLoading={isSubmitting}
@@ -104,13 +104,27 @@ const AddMovie: React.FC<{}> = ({}) => {
                                         Preview
                                     </Button>
                                 ) : (
-                                    <Button
-                                        isLoading={isSubmitting}
-                                        type="submit"
-                                        variantColor="teal"
-                                    >
-                                        Add movie
-                                    </Button>
+                                    <>
+                                        <Button
+                                            isLoading={isSubmitting}
+                                            type="submit"
+                                            variantColor="teal"
+                                        >
+                                            Add movie
+                                        </Button>
+                                        <Button
+                                            isLoading={isSubmitting}
+                                            type="submit"
+                                            variantColor="teal"
+                                            onClick={() =>
+                                                setInputVisibility(
+                                                    !inputVisibility
+                                                )
+                                            }
+                                        >
+                                            Try again
+                                        </Button>
+                                    </>
                                 )}
                             </Flex>
                         </Form>
