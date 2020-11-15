@@ -140,6 +140,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                 finalFocusRef={btnRef}
                 isFullHeight={true}
                 preserveScrollBarGap={true}
+                scrollBehavior="inside"
             >
                 <DrawerOverlay>
                     <DrawerContent>
