@@ -141,6 +141,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                 isFullHeight={true}
                 preserveScrollBarGap={true}
                 scrollBehavior="inside"
+                blockScrollOnMount={true}
             >
                 <DrawerOverlay>
                     <DrawerContent>
