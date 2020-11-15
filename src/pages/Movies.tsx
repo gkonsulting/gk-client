@@ -2,7 +2,7 @@ import { Wrapper } from "../components/Wrapper";
 import { Navbar } from "../components/Navbar";
 import { useGetMoviesQuery } from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
-import { Box, Button, Flex, Link, Text } from "@chakra-ui/core";
+import { Button, Flex, Link, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
 import { userAuth } from "../utils/userAuth";
