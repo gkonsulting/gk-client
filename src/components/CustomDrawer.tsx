@@ -137,6 +137,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 isFullHeight={true}
+                preserveScrollBarGap={true}
             >
                 <DrawerOverlay>
                     <DrawerContent>
@@ -145,7 +146,7 @@ export const CustomDrawer: React.FC<{}> = () => {
 
                         <DrawerBody>{bodyActions}</DrawerBody>
 
-                        <DrawerFooter mb="20">{bodyUser}</DrawerFooter>
+                        <DrawerFooter mb="100px">{bodyUser}</DrawerFooter>
                     </DrawerContent>
                 </DrawerOverlay>
             </Drawer>
