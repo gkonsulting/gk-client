@@ -51,7 +51,7 @@ export const CustomDrawer: React.FC<{}> = () => {
         );
         bodyUser = (
             <>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box mt={{ base: 4, md: 0 }} mr={6}>
                     <NextLink href="/Login">
                         <Link _hover={{ textDecoration: "none" }}>
                             <Button variantColor="teal" border="1px">
@@ -60,7 +60,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                         </Link>
                     </NextLink>
                 </Box>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box mt={{ base: 4, md: 0 }} mr={6}>
                     <NextLink href="/Register">
                         <Link _hover={{ textDecoration: "none" }}>
                             <Button variantColor="teal" border="1px">
@@ -96,7 +96,7 @@ export const CustomDrawer: React.FC<{}> = () => {
         );
         bodyUser = (
             <>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box mt={{ base: 4, md: 0 }} mr={6}>
                     <NextLink href="/User/[id]" as={`/User/${data.me.id}`}>
                         <Link _hover={{ textDecoration: "none" }}>
                             <Button variantColor="teal" border="1px">
@@ -105,7 +105,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                         </Link>
                     </NextLink>
                 </Box>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box mt={{ base: 4, md: 0 }} mr={6}>
                     <Button
                         onClick={async () => {
                             await logout();
@@ -144,7 +144,7 @@ export const CustomDrawer: React.FC<{}> = () => {
 
                         <DrawerBody>{bodyActions}</DrawerBody>
 
-                        <DrawerFooter>{bodyUser}</DrawerFooter>
+                        <DrawerFooter mb="20">{bodyUser}</DrawerFooter>
                     </DrawerContent>
                 </DrawerOverlay>
             </Drawer>
