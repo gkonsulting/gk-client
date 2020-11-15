@@ -152,7 +152,7 @@ export const CustomDrawer: React.FC<{}> = () => {
                         </Flex>
                         <DrawerBody>{bodyActions}</DrawerBody>
 
-                        <DrawerFooter>{bodyUser}</DrawerFooter>
+                        <DrawerFooter mb="100px">{bodyUser}</DrawerFooter>
                     </DrawerContent>
                 </DrawerOverlay>
             </Drawer>
