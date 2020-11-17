@@ -144,7 +144,7 @@ const Index = () => {
                             <Image
                                 size="300px"
                                 objectFit="cover"
-                                src="/ian.png"
+                                src="/ian.jpg"
                                 alt="Ian Evangelista"
                             />
                         </Flex>
