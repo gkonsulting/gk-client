@@ -100,4 +100,4 @@ const Movies = () => {
     );
 };
 
-export default withApollo({ ssr: true })(Movies);
+export default withApollo({ ssr: false })(Movies);
