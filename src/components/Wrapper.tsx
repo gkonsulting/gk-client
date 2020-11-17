@@ -12,7 +12,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
     return (
         <Box
             mx="auto"
-            maxW={variant === "regular" ? "100%" : "600px"}
+            maxW={variant === "regular" ? "80%" : "600px"}
             w="100%"
             mt={5}
         >
