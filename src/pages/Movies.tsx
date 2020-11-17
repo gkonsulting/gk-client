@@ -5,7 +5,7 @@ import {
     // useGetPopularMoviesQuery,
 } from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
-import { Button, Flex, Link, Select, Text } from "@chakra-ui/core";
+import { Button, Flex, Link, Select, SelectProps, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
 import { userAuth } from "../utils/userAuth";
@@ -56,10 +56,8 @@ const Movies = () => {
                             variant="outline"
                             mx={5}
                             placeholder="Order by:"
-                            css={{
-                                backgroundColor: "rgba(255,255,255,0.06)",
-                                border: "none",
-                            }}
+                            bg="rgba(255,255,255,0.06)"
+                            
                         >
                             <option
                                 onClick={() => console.log("hei")}
