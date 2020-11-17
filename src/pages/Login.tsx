@@ -12,6 +12,7 @@ import { withApollo } from "../utils/withApollo";
 const Login: React.FC<{}> = ({}) => {
     const [login] = useLoginMutation();
     const router = useRouter();
+
     return (
         <>
             <Navbar />

@@ -7,6 +7,9 @@ export const userAuth = (id?: string) => {
     const router = useRouter();
 
     useEffect(() => {
+        console.log(data);
+        console.log(data?.me);
+        
         if (!loading && !data?.me && id && document.cookie === "") {
             router.replace("/Login?next=" + router.pathname.slice(0, -4) + id);
         } else if (!loading && !data?.me && document.cookie === "") {
