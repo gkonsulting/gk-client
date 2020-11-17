@@ -25,13 +25,9 @@ export const Navbar: React.FC<{}> = (props) => {
     } else if (!data?.me) {
         bodyActions = (
             <>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box as="text" fontSize="xl" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Vlog">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
-                                Vlog
-                            </Button>
-                        </Link>
+                        <Link>Vlogs</Link>
                     </NextLink>
                 </Box>
             </>
@@ -61,22 +57,14 @@ export const Navbar: React.FC<{}> = (props) => {
     } else {
         bodyActions = (
             <>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box as="text" fontSize="xl" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Vlog">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
-                                Vlog
-                            </Button>
-                        </Link>
+                        <Link>Vlogs</Link>
                     </NextLink>
                 </Box>
-                <Box mt={{ base: 4, md: 0 }} mr={5}>
+                <Box as="text" fontSize="xl" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Movies">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
-                                Movies
-                            </Button>
-                        </Link>
+                        <Link _hover={{ textDecoration: "none" }}>Movies</Link>
                     </NextLink>
                 </Box>
             </>

@@ -40,13 +40,14 @@ export const CustomDrawer: React.FC<{}> = () => {
     } else if (!data?.me) {
         bodyActions = (
             <Stack spacing={5}>
-                <Box w="100%" mt={{ base: 4, md: 0 }} mr={5}>
+                <Box
+                    as="text"
+                    textAlign="center"
+                    fontSize="4xl"
+                    mt={{ base: 4, md: 0 }}
+                >
                     <NextLink href="/Vlog">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button w="100%" variantColor="teal" border="1px">
-                                Vlog
-                            </Button>
-                        </Link>
+                        <Link _hover={{ textDecoration: "none" }}>Vlogs</Link>
                     </NextLink>
                 </Box>
             </Stack>
@@ -76,22 +77,24 @@ export const CustomDrawer: React.FC<{}> = () => {
     } else {
         bodyActions = (
             <Stack spacing={5}>
-                <Box w="100%" mt={{ base: 4, md: 0 }} mr={5}>
+                <Box
+                    as="text"
+                    textAlign="center"
+                    fontSize="4xl"
+                    mt={{ base: 4, md: 0 }}
+                >
                     <NextLink href="/Vlog">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button w="100%" variantColor="teal" border="1px">
-                                Vlog
-                            </Button>
-                        </Link>
+                        <Link>Vlogs</Link>
                     </NextLink>
                 </Box>
-                <Box w="100%" mt={{ base: 4, md: 0 }} mr={5}>
+                <Box
+                    as="text"
+                    textAlign="center"
+                    fontSize="4xl"
+                    mt={{ base: 4, md: 0 }}
+                >
                     <NextLink href="/Movies">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button w="100%" variantColor="teal" border="1px">
-                                Movies
-                            </Button>
-                        </Link>
+                        <Link>Movies</Link>
                     </NextLink>
                 </Box>
             </Stack>

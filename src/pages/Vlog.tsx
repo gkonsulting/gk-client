@@ -11,7 +11,7 @@ const Vlog = ({}) => {
             <Navbar />
             <Wrapper>
                 <Text textAlign="center" fontSize="6xl">
-                    Vlog
+                    Vlogs
                 </Text>
                 <Flex direction="row" wrap="wrap" justify="space-evenly">
                     <Box m={1}>
