@@ -27,7 +27,7 @@ export type QueryGetMoviesArgs = {
 
 
 export type QueryGetPopularMoviesArgs = {
-  cursor?: Maybe<Scalars['String']>;
+  cursor?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
 };
 
@@ -339,7 +339,7 @@ export type GetMoviesQuery = (
 
 export type GetPopularMoviesQueryVariables = Exact<{
   limit: Scalars['Int'];
-  cursor?: Maybe<Scalars['String']>;
+  cursor?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -804,7 +804,7 @@ export type GetMoviesQueryHookResult = ReturnType<typeof useGetMoviesQuery>;
 export type GetMoviesLazyQueryHookResult = ReturnType<typeof useGetMoviesLazyQuery>;
 export type GetMoviesQueryResult = Apollo.QueryResult<GetMoviesQuery, GetMoviesQueryVariables>;
 export const GetPopularMoviesDocument = gql`
-    query getPopularMovies($limit: Int!, $cursor: String) {
+    query getPopularMovies($limit: Int!, $cursor: Int) {
   getPopularMovies(cursor: $cursor, limit: $limit) {
     hasMore
     movies {

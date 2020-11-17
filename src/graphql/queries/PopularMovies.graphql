@@ -1,4 +1,4 @@
-query getPopularMovies($limit: Int!, $cursor: String) {
+query getPopularMovies($limit: Int!, $cursor: Int) {
     getPopularMovies(cursor: $cursor, limit: $limit) {
         hasMore
         movies {

@@ -2,7 +2,7 @@ import { Wrapper } from "../components/Wrapper";
 import { Navbar } from "../components/Navbar";
 import {
     useGetMoviesQuery,
-    // useGetPopularMoviesQuery,
+    useGetPopularMoviesQuery,
 } from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
 import { Button, Flex, Link, Select, Text } from "@chakra-ui/core";
@@ -14,6 +14,9 @@ import NextLink from "next/link";
 
 const Movies = () => {
     userAuth();
+
+    const [sort, setSort] = React.useState(true);
+
     const { data, loading, variables, fetchMore } = useGetMoviesQuery({
         variables: {
             limit: 3,
@@ -22,19 +25,26 @@ const Movies = () => {
         notifyOnNetworkStatusChange: true,
     });
 
-    // const { data, loading, variables, fetchMore } = useGetPopularMoviesQuery({
-    //     variables: {
-    //         limit: 3,
-    //         cursor: null,
-    //     },
-    //     notifyOnNetworkStatusChange: true,
-    // });
+    const {
+        data: dataPop,
+        loading: loadingPop,
+        variables: variablesPop,
+        fetchMore: fetchMorePop,
+    } = useGetPopularMoviesQuery({
+        variables: {
+            limit: 3,
+            cursor: null,
+        },
+        notifyOnNetworkStatusChange: true,
+    });
 
-    if (!loading && !data) {
+    let selectedSort: any = null;
+
+    if (sort) selectedSort = data?.getMovies;
+    else if (!sort) selectedSort = dataPop?.getPopularMovies;
+    if ((!loading && !data) || (!loadingPop && !dataPop)) {
         return <div>No data</div>;
     }
-
-    console.log(variables);
 
     return (
         <>
@@ -55,17 +65,13 @@ const Movies = () => {
                         <Select
                             variant="outline"
                             mx={5}
-                            placeholder="Order by:"
+                            placeholder="Created at descending"
                             bg="rgba(255,255,255,0.06)"
+                            onChange={() => setSort(!sort)}
                         >
-                            <option
-                                onClick={() => console.log("hei")}
-                                value="option1"
-                            >
+                            <option onClick={() => setSort(!sort)}>
                                 Points descending
                             </option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
                         </Select>
                     </Flex>
                 </Flex>
@@ -88,35 +94,47 @@ const Movies = () => {
                         >
                             {!data
                                 ? null
-                                : data.getMovies.movies.map((movie, i) =>
-                                      !movie ? null : (
-                                          <Flex
-                                              direction="column"
-                                              align="center"
-                                              key={i}
-                                              my={3}
-                                          >
-                                              <MovieCard movie={movie} />
-                                          </Flex>
-                                      )
+                                : selectedSort?.movies.map(
+                                      (movie: any, i: number) =>
+                                          !movie ? null : (
+                                              <Flex
+                                                  direction="column"
+                                                  align="center"
+                                                  key={i}
+                                                  my={3}
+                                              >
+                                                  <MovieCard movie={movie} />
+                                              </Flex>
+                                          )
                                   )}
                         </Flex>
-                        {data && data.getMovies.hasMore ? (
+                        {data && selectedSort?.hasMore ? (
                             <Flex justifyContent="center">
                                 <Button
                                     variantColor="teal"
                                     isLoading={loading}
                                     onClick={() => {
-                                        fetchMore({
-                                            variables: {
-                                                limit: variables?.limit,
-                                                cursor:
-                                                    data?.getMovies.movies[
-                                                        data.getMovies.movies
-                                                            .length - 1
-                                                    ].createdAt,
-                                            },
-                                        });
+                                        sort
+                                            ? fetchMore({
+                                                  variables: {
+                                                      limit: variables?.limit,
+                                                      cursor:
+                                                          selectedSort.movies[
+                                                              selectedSort
+                                                                  .movies
+                                                                  .length - 1
+                                                          ].createdAt,
+                                                  },
+                                              })
+                                            : fetchMorePop({
+                                                  variables: {
+                                                      limit:
+                                                          variablesPop?.limit,
+                                                      cursor:
+                                                          selectedSort.movies
+                                                              .length - 1,
+                                                  },
+                                              });
                                     }}
                                     m={5}
                                 >
