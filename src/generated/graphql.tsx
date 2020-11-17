@@ -66,6 +66,7 @@ export type Movie = {
   rating: Scalars['String'];
   points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
+  seen?: Maybe<Scalars['Boolean']>;
 };
 
 export type Mutation = {
@@ -78,6 +79,7 @@ export type Mutation = {
   vote: Scalars['Boolean'];
   addMovie: Movie;
   updateMovie?: Maybe<Movie>;
+  updateSeen?: Maybe<Movie>;
   deleteMovie: Scalars['Boolean'];
 };
 
@@ -121,6 +123,12 @@ export type MutationUpdateMovieArgs = {
 };
 
 
+export type MutationUpdateSeenArgs = {
+  seen: Scalars['Boolean'];
+  id: Scalars['Int'];
+};
+
+
 export type MutationDeleteMovieArgs = {
   id: Scalars['Int'];
 };
@@ -154,7 +162,7 @@ export type MovieInput = {
 
 export type MovieInfoFragment = (
   { __typename?: 'Movie' }
-  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus'>
+  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username' | 'email'>
@@ -295,6 +303,21 @@ export type UpdateMovieMutation = (
   )> }
 );
 
+export type UpdateSeenMutationVariables = Exact<{
+  id: Scalars['Int'];
+  seen: Scalars['Boolean'];
+}>;
+
+
+export type UpdateSeenMutation = (
+  { __typename?: 'Mutation' }
+  & { updateSeen?: Maybe<(
+    { __typename?: 'Movie' }
+    & Pick<Movie, 'id'>
+    & MovieUpdateFragment
+  )> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -367,6 +390,7 @@ export const MovieInfoFragmentDoc = gql`
   poster
   points
   voteStatus
+  seen
   creator {
     id
     username
@@ -701,6 +725,40 @@ export function useUpdateMovieMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateMovieMutationHookResult = ReturnType<typeof useUpdateMovieMutation>;
 export type UpdateMovieMutationResult = Apollo.MutationResult<UpdateMovieMutation>;
 export type UpdateMovieMutationOptions = Apollo.BaseMutationOptions<UpdateMovieMutation, UpdateMovieMutationVariables>;
+export const UpdateSeenDocument = gql`
+    mutation updateSeen($id: Int!, $seen: Boolean!) {
+  updateSeen(id: $id, seen: $seen) {
+    id
+    ...MovieUpdate
+  }
+}
+    ${MovieUpdateFragmentDoc}`;
+export type UpdateSeenMutationFn = Apollo.MutationFunction<UpdateSeenMutation, UpdateSeenMutationVariables>;
+
+/**
+ * __useUpdateSeenMutation__
+ *
+ * To run a mutation, you first call `useUpdateSeenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSeenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSeenMutation, { data, loading, error }] = useUpdateSeenMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      seen: // value for 'seen'
+ *   },
+ * });
+ */
+export function useUpdateSeenMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSeenMutation, UpdateSeenMutationVariables>) {
+        return Apollo.useMutation<UpdateSeenMutation, UpdateSeenMutationVariables>(UpdateSeenDocument, baseOptions);
+      }
+export type UpdateSeenMutationHookResult = ReturnType<typeof useUpdateSeenMutation>;
+export type UpdateSeenMutationResult = Apollo.MutationResult<UpdateSeenMutation>;
+export type UpdateSeenMutationOptions = Apollo.BaseMutationOptions<UpdateSeenMutation, UpdateSeenMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

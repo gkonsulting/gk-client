@@ -1,0 +1,6 @@
+mutation updateSeen($id: Int!, $seen: Boolean!) {
+    updateSeen(id: $id, seen: $seen) {
+        id
+        ...MovieUpdate
+    }
+}

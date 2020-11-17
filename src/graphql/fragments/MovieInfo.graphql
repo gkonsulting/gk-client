@@ -9,6 +9,7 @@ fragment MovieInfo on Movie {
     poster
     points
     voteStatus
+    seen
     creator {
         id
         username

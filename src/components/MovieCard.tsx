@@ -12,21 +12,16 @@ import {
 import React from "react";
 import {
     MovieInfoFragment,
+    UpdateSeenMutation,
     useDeleteMovieMutation,
     useMeQuery,
+    useUpdateSeenMutation,
 } from "../generated/graphql";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { VoteField } from "./VoteField";
-// interface MovieCardProps {
-//     id: number;
-//     title: string;
-//     description: string;
-//     poster: string;
-//     rating: string;
-//     reason: string;
-//     creator: { id: number; username: string };
-// }
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ApolloCache, gql } from "@apollo/client";
 
 interface MovieCardProps {
     movie: MovieInfoFragment;
@@ -34,17 +29,12 @@ interface MovieCardProps {
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     const [deleteMovie] = useDeleteMovieMutation();
+    const [updateSeen] = useUpdateSeenMutation();
     const { data } = useMeQuery();
     const router = useRouter();
 
     return (
-        <Box
-            w="sm"
-            h={650}
-            borderWidth="1px"
-            rounded="lg"
-            overflow="hidden"
-        >
+        <Box w="sm" h={650} borderWidth="1px" rounded="lg" overflow="hidden">
             <Flex direction="column" justify="space-between">
                 <NextLink href="/Movie/[id]" as={`/Movie/${movie?.id}`}>
                     <Link _hover={{ textDecoration: "none" }}>
@@ -55,7 +45,13 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                         <Box mx="6">
                             <Stack spacing={4}>
                                 <Box lineHeight="tight">
-                                    <Text fontWeight="bold" fontSize="3xl">
+                                    <Text
+                                        textDecoration={
+                                            movie.seen ? "line-through" : "none"
+                                        }
+                                        fontWeight="bold"
+                                        fontSize="3xl"
+                                    >
                                         {movie?.title}
                                     </Text>
                                 </Box>
@@ -154,6 +150,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                                 size="sm"
                                 variantColor="teal"
                                 aria-label="Delete Movie"
+                                mr={3}
+                                w={10}
                                 onClick={async () =>
                                     await deleteMovie({
                                         variables: {
@@ -168,12 +166,91 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                                         router.push("/Movies");
                                     })
                                 }
-                                w={10}
                             />
+                            {!movie.seen ? (
+                                <IconButton
+                                    variantColor="teal"
+                                    size="sm"
+                                    icon={FaEye}
+                                    aria-label="Have watched"
+                                    w={10}
+                                    onClick={async () => {
+                                        await updateSeen({
+                                            variables: {
+                                                id: movie!.id,
+                                                seen: true,
+                                            },
+                                            update: (cache) =>
+                                                updateAfterSeen(
+                                                    true,
+                                                    movie.id,
+                                                    cache
+                                                ),
+                                        });
+                                    }}
+                                />
+                            ) : (
+                                <IconButton
+                                    variantColor="teal"
+                                    size="sm"
+                                    icon={FaEyeSlash}
+                                    aria-label="Have not watched"
+                                    w={10}
+                                    onClick={async () => {
+                                        await updateSeen({
+                                            variables: {
+                                                id: movie!.id,
+                                                seen: false,
+                                            },
+                                            update: (cache) =>
+                                                updateAfterSeen(
+                                                    false,
+                                                    movie.id,
+                                                    cache
+                                                ),
+                                        });
+                                    }}
+                                />
+                            )}
                         </Flex>
                     )}
                 </Flex>
             </Flex>
         </Box>
     );
+};
+
+const updateAfterSeen = (
+    value: boolean,
+    movieId: number,
+    cache: ApolloCache<UpdateSeenMutation>
+) => {
+    const data = cache.readFragment<{
+        id: number;
+        seen: boolean;
+    }>({
+        id: "Movie:" + movieId,
+        fragment: gql`
+            fragment _ on Movie {
+                id
+                seen
+            }
+        `,
+    });
+
+    if (data) {
+        if (data.seen === value) {
+            return;
+        }
+        const newValue = value;
+        cache.writeFragment({
+            id: "Movie:" + movieId,
+            fragment: gql`
+                fragment __ on Movie {
+                    seen
+                }
+            `,
+            data: { seen: newValue },
+        });
+    }
 };
