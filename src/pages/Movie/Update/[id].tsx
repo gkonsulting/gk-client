@@ -94,4 +94,4 @@ export const updateMovie: React.FC<{}> = ({}) => {
     }
 };
 
-export default withApollo({ ssr: true })(updateMovie);
+export default withApollo({ ssr: false })(updateMovie);

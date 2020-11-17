@@ -211,4 +211,4 @@ const Movie = ({}) => {
     );
 };
 
-export default withApollo({ ssr: true })(Movie);
+export default withApollo({ ssr: false })(Movie);
