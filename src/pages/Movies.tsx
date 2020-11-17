@@ -1,8 +1,11 @@
 import { Wrapper } from "../components/Wrapper";
 import { Navbar } from "../components/Navbar";
-import { useGetMoviesQuery } from "../generated/graphql";
+import {
+    useGetMoviesQuery,
+    // useGetPopularMoviesQuery,
+} from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
-import { Button, Flex, Link, Text } from "@chakra-ui/core";
+import { Button, Flex, Link, Select, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
 import { userAuth } from "../utils/userAuth";
@@ -19,9 +22,19 @@ const Movies = () => {
         notifyOnNetworkStatusChange: true,
     });
 
+    // const { data, loading, variables, fetchMore } = useGetPopularMoviesQuery({
+    //     variables: {
+    //         limit: 3,
+    //         cursor: null,
+    //     },
+    //     notifyOnNetworkStatusChange: true,
+    // });
+
     if (!loading && !data) {
         return <div>No data</div>;
     }
+
+    console.log(variables);
 
     return (
         <>
@@ -31,13 +44,33 @@ const Movies = () => {
                     <Text textAlign="center" fontSize="6xl">
                         Movies
                     </Text>
-                    <NextLink href="/Add-movie">
-                        <Link _hover={{ textDecoration: "none" }}>
-                            <Button variantColor="teal" border="1px">
-                                Add movie
-                            </Button>
-                        </Link>
-                    </NextLink>
+                    <Flex>
+                        <NextLink href="/Add-movie">
+                            <Link _hover={{ textDecoration: "none" }}>
+                                <Button variantColor="teal" border="1px">
+                                    Add movie
+                                </Button>
+                            </Link>
+                        </NextLink>
+                        <Select
+                            variant="outline"
+                            mx={5}
+                            placeholder="Order by:"
+                            css={{
+                                backgroundColor: "rgba(255,255,255,0.06)",
+                                border: "none",
+                            }}
+                        >
+                            <option
+                                onClick={() => console.log("hei")}
+                                value="option1"
+                            >
+                                Points descending
+                            </option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </Select>
+                    </Flex>
                 </Flex>
                 {!data && loading ? (
                     <Flex justify="center" align="center">
