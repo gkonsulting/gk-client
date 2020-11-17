@@ -25,7 +25,11 @@ function MyApp({ Component, pageProps }: any) {
                     sizes="180x180"
                     href="/apple-touch-icon.png"
                 />
-                <link rel="manifest" href="/site.webmanifest" />
+                <link
+                    rel="manifest"
+                    href="/site.webmanifest"
+                    crossOrigin="use-credentials"
+                />
                 <link
                     rel="mask-icon"
                     href="/safari-pinned-tab.svg"
