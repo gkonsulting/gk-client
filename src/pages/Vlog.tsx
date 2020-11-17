@@ -16,14 +16,14 @@ const Vlog = ({}) => {
                 <Flex direction="row" wrap="wrap" justify="space-evenly">
                     <Box m={1}>
                         <ReactPlayer
-                            width="100vw"
+                            width="100%"
                             controls={true}
                             url="https://www.dailymotion.com/video/x7na563"
                         />
                     </Box>
                     <Box m={1}>
                         <ReactPlayer
-                            width="100vw"
+                            width="100%"
                             controls={true}
                             url="https://www.dailymotion.com/video/x7na7ux"
                         />
