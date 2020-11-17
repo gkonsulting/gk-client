@@ -64,7 +64,7 @@ export const Navbar: React.FC<{}> = (props) => {
                 </Box>
                 <Box as="text" fontSize="xl" mt={{ base: 4, md: 0 }} mr={5}>
                     <NextLink href="/Movies">
-                        <Link _hover={{ textDecoration: "none" }}>Movies</Link>
+                        <Link>Movies</Link>
                     </NextLink>
                 </Box>
             </>

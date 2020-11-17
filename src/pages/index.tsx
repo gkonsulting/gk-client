@@ -2,11 +2,14 @@ import { Wrapper } from "../components/Wrapper";
 import { Navbar } from "../components/Navbar";
 import { withApollo } from "../utils/withApollo";
 import React from "react";
-import { Flex, Image, Stack, Text } from "@chakra-ui/core";
+import { Flex, IconButton, Image, Stack, Text } from "@chakra-ui/core";
 import useWindowSize from "../utils/useWindowSize";
+import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const Index = () => {
-    const size = useWindowSize();
+    const checkSize = useWindowSize().width < 700;
+    const router = useRouter();
 
     return (
         <>
@@ -21,23 +24,68 @@ const Index = () => {
                         <Flex
                             justify="space-between"
                             align="center"
-                            direction={
-                                size.width < 700 ? "column-reverse" : "row"
-                            }
+                            direction={checkSize ? "column-reverse" : "row"}
                         >
                             <Flex direction="column" m={5}>
                                 <Text
                                     fontSize="5xl"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Emir Derouche
+                                    <Flex
+                                        my={3}
+                                        justify={
+                                            checkSize ? "center" : "row-start"
+                                        }
+                                    >
+                                        <IconButton
+                                            mr={3}
+                                            bg="transparent"
+                                            aria-label="Facebook"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.facebook.com/ederouiche"
+                                                )
+                                            }
+                                            as={FaFacebook}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="Instagram"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.instagram.com/emirderouiche/"
+                                                )
+                                            }
+                                            as={FaInstagram}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://github.com/memir0"
+                                                )
+                                            }
+                                            as={FaGithub}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.linkedin.com/in/emir-d-17a4239a/"
+                                                )
+                                            }
+                                            as={FaLinkedin}
+                                        />
+                                    </Flex>
                                 </Text>
                                 <Text
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                     fontSize="lg"
                                 >
                                     Ikke spør oss hvordan, for vi vet det ikke
@@ -59,9 +107,7 @@ const Index = () => {
                         </Flex>
                         <Flex
                             direction={
-                                size.width < 700
-                                    ? "column-reverse"
-                                    : "row-reverse"
+                                checkSize ? "column-reverse" : "row-reverse"
                             }
                             justify="space-between"
                             align="center"
@@ -69,17 +115,64 @@ const Index = () => {
                             <Flex direction="column" m={5}>
                                 <Text
                                     fontSize="5xl"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Nikolai Dokken
+                                    <Flex
+                                        my={3}
+                                        justify={
+                                            checkSize ? "center" : "row-start"
+                                        }
+                                    >
+                                        <IconButton
+                                            mr={3}
+                                            bg="transparent"
+                                            aria-label="Facebook"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.facebook.com/nikolai.dokken.3"
+                                                )
+                                            }
+                                            as={FaFacebook}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="Instagram"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.instagram.com/nikolaidokken/"
+                                                )
+                                            }
+                                            as={FaInstagram}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://github.com/NikolaiDokken"
+                                                )
+                                            }
+                                            as={FaGithub}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.linkedin.com/in/nikolaidokken/"
+                                                )
+                                            }
+                                            as={FaLinkedin}
+                                        />
+                                    </Flex>
                                 </Text>
                                 <Text
                                     fontSize="lg"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Nikko D🍆Bærumsgutten som bruker hundeleker
                                     på soverommet😱 Nikko stilte til valg som
@@ -105,24 +198,69 @@ const Index = () => {
                         <Flex
                             justify="space-between"
                             align="center"
-                            direction={
-                                size.width < 700 ? "column-reverse" : "row"
-                            }
+                            direction={checkSize ? "column-reverse" : "row"}
                         >
                             <Flex direction="column" m={5}>
                                 <Text
                                     fontSize="5xl"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Ian Evangelista
+                                    <Flex
+                                        my={3}
+                                        justify={
+                                            checkSize ? "center" : "row-start"
+                                        }
+                                    >
+                                        <IconButton
+                                            mr={3}
+                                            bg="transparent"
+                                            aria-label="Facebook"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.facebook.com/ian.evangelista99/"
+                                                )
+                                            }
+                                            as={FaFacebook}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="Instagram"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.instagram.com/ian_evangelista/"
+                                                )
+                                            }
+                                            as={FaInstagram}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://github.com/ianevangelista"
+                                                )
+                                            }
+                                            as={FaGithub}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.linkedin.com/in/ianevangelista/"
+                                                )
+                                            }
+                                            as={FaLinkedin}
+                                        />
+                                    </Flex>
                                 </Text>
                                 <Text
                                     fontSize="lg"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Ian er Speedingos indrefilet. Denne
                                     askergutten er et bedre tilskudd til gruppa
@@ -150,9 +288,7 @@ const Index = () => {
                         </Flex>
                         <Flex
                             direction={
-                                size.width < 700
-                                    ? "column-reverse"
-                                    : "row-reverse"
+                                checkSize ? "column-reverse" : "row-reverse"
                             }
                             justify="space-between"
                             align="center"
@@ -160,17 +296,64 @@ const Index = () => {
                             <Flex direction="column" m={5}>
                                 <Text
                                     fontSize="5xl"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Kasper Gundersen
+                                    <Flex
+                                        my={3}
+                                        justify={
+                                            checkSize ? "center" : "row-start"
+                                        }
+                                    >
+                                        <IconButton
+                                            mr={3}
+                                            bg="transparent"
+                                            aria-label="Facebook"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.facebook.com/kasper.gundersen.7"
+                                                )
+                                            }
+                                            as={FaFacebook}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="Instagram"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.instagram.com/kasper_v_g/"
+                                                )
+                                            }
+                                            as={FaInstagram}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://github.com/KasperGundersen"
+                                                )
+                                            }
+                                            as={FaGithub}
+                                        />
+                                        <IconButton
+                                            mx={3}
+                                            bg="transparent"
+                                            aria-label="GitHub"
+                                            onClick={() =>
+                                                router.push(
+                                                    "https://www.linkedin.com/in/kaspergundersen/"
+                                                )
+                                            }
+                                            as={FaLinkedin}
+                                        />
+                                    </Flex>
                                 </Text>
                                 <Text
                                     fontSize="lg"
-                                    textAlign={
-                                        size.width < 700 ? "center" : "inherit"
-                                    }
+                                    textAlign={checkSize ? "center" : "inherit"}
                                 >
                                     Kasper ble oppvokst på en fransk vingård og
                                     er dermed gruppens vinkjeller. Er det noe
