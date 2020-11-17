@@ -64,6 +64,7 @@ const Movies = () => {
                                               direction="column"
                                               align="center"
                                               key={i}
+                                              my={3}
                                           >
                                               <MovieCard movie={movie} />
                                           </Flex>
