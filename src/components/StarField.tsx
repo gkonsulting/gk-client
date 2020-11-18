@@ -98,7 +98,6 @@ export const StarField: React.FC<StarFieldProps> = ({ movie }) => {
                         fontSize="md"
                         color="teal.500"
                     >
-
                         {Math.round(
                             (movie.totalStars /
                                 (movie.userStars !== 0
@@ -145,7 +144,10 @@ const updateAfterStar = (
             (data.totalStars as number) +
             value -
             (data.starStatus ? data.starStatus : 0);
-        const newUserStars = (data.userStars as number) + 1;
+        const newUserStars =
+            (data.starStatus as number) <= 0
+                ? (data.userStars as number) + 1
+                : (data.userStars as number);
         cache.writeFragment({
             id: "Movie:" + movieId,
             fragment: gql`
