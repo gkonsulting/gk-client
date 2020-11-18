@@ -15,6 +15,7 @@ export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
   getMovies: PaginatedMovies;
+  getMyMovies: PaginatedMovies;
   getPopularMovies: PaginatedMovies;
   getMovie?: Maybe<Movie>;
 };
@@ -22,6 +23,13 @@ export type Query = {
 
 export type QueryGetMoviesArgs = {
   cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryGetMyMoviesArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  creatorId: Scalars['Int'];
   limit: Scalars['Int'];
 };
 
@@ -351,6 +359,25 @@ export type GetMoviesQueryVariables = Exact<{
 export type GetMoviesQuery = (
   { __typename?: 'Query' }
   & { getMovies: (
+    { __typename?: 'PaginatedMovies' }
+    & Pick<PaginatedMovies, 'hasMore'>
+    & { movies: Array<(
+      { __typename?: 'Movie' }
+      & MovieInfoFragment
+    )> }
+  ) }
+);
+
+export type GetMyMoviesQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  creatorId: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetMyMoviesQuery = (
+  { __typename?: 'Query' }
+  & { getMyMovies: (
     { __typename?: 'PaginatedMovies' }
     & Pick<PaginatedMovies, 'hasMore'>
     & { movies: Array<(
@@ -861,6 +888,44 @@ export function useGetMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetMoviesQueryHookResult = ReturnType<typeof useGetMoviesQuery>;
 export type GetMoviesLazyQueryHookResult = ReturnType<typeof useGetMoviesLazyQuery>;
 export type GetMoviesQueryResult = Apollo.QueryResult<GetMoviesQuery, GetMoviesQueryVariables>;
+export const GetMyMoviesDocument = gql`
+    query getMyMovies($limit: Int!, $creatorId: Int!, $cursor: String) {
+  getMyMovies(cursor: $cursor, creatorId: $creatorId, limit: $limit) {
+    hasMore
+    movies {
+      ...MovieInfo
+    }
+  }
+}
+    ${MovieInfoFragmentDoc}`;
+
+/**
+ * __useGetMyMoviesQuery__
+ *
+ * To run a query within a React component, call `useGetMyMoviesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyMoviesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyMoviesQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      creatorId: // value for 'creatorId'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetMyMoviesQuery(baseOptions: Apollo.QueryHookOptions<GetMyMoviesQuery, GetMyMoviesQueryVariables>) {
+        return Apollo.useQuery<GetMyMoviesQuery, GetMyMoviesQueryVariables>(GetMyMoviesDocument, baseOptions);
+      }
+export function useGetMyMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyMoviesQuery, GetMyMoviesQueryVariables>) {
+          return Apollo.useLazyQuery<GetMyMoviesQuery, GetMyMoviesQueryVariables>(GetMyMoviesDocument, baseOptions);
+        }
+export type GetMyMoviesQueryHookResult = ReturnType<typeof useGetMyMoviesQuery>;
+export type GetMyMoviesLazyQueryHookResult = ReturnType<typeof useGetMyMoviesLazyQuery>;
+export type GetMyMoviesQueryResult = Apollo.QueryResult<GetMyMoviesQuery, GetMyMoviesQueryVariables>;
 export const GetPopularMoviesDocument = gql`
     query getPopularMovies($limit: Int!, $cursor: Int) {
   getPopularMovies(cursor: $cursor, limit: $limit) {

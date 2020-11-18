@@ -3,7 +3,9 @@ import { Navbar } from "../components/Navbar";
 import {
     MovieInfoFragment,
     useGetMoviesQuery,
+    useGetMyMoviesQuery,
     useGetPopularMoviesQuery,
+    useMeQuery,
 } from "../generated/graphql";
 import { MovieCard } from "../components/MovieCard";
 import { Button, Flex, Link, Select, Text } from "@chakra-ui/core";
@@ -15,6 +17,12 @@ import NextLink from "next/link";
 
 const Movies = () => {
     userAuth();
+    const [myId, setMyId] = React.useState(0);
+    const { data: me, loading: meLoading } = useMeQuery();
+
+    React.useEffect(() => {
+        if (me) setMyId(me!.me!.id);
+    }, [me, meLoading]);
 
     const [sort, setSort] = React.useState(0);
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,12 +50,30 @@ const Movies = () => {
         notifyOnNetworkStatusChange: true,
     });
 
+    const {
+        data: dataMy,
+        loading: loadingMy,
+        variables: variablesMy,
+        fetchMore: fetchMoreMy,
+    } = useGetMyMoviesQuery({
+        variables: {
+            limit: 3,
+            creatorId: myId,
+            cursor: null,
+        },
+    });
+
     let selectedSort: any = null;
 
     if (sort === 0) selectedSort = data?.getMovies;
     else if (sort === 1) selectedSort = dataPop?.getPopularMovies;
+    else if (sort === 2) selectedSort = dataMy?.getMyMovies;
 
-    if ((!loading && !data) || (!loadingPop && !dataPop)) {
+    if (
+        (!loading && !data) ||
+        (!loadingPop && !dataPop) ||
+        (!loadingMy && !dataMy)
+    ) {
         return <div>No data</div>;
     }
 
@@ -115,42 +141,69 @@ const Movies = () => {
                         </Flex>
                         {data && selectedSort?.hasMore ? (
                             <Flex justifyContent="center">
-                                <Button
-                                    variantColor="teal"
-                                    isLoading={loading}
-                                    m={5}
-                                    onClick={() => {
-                                        {
-                                            sort === 0
-                                                ? fetchMore({
-                                                      variables: {
-                                                          limit:
-                                                              variables?.limit,
-                                                          cursor:
-                                                              selectedSort
-                                                                  .movies[
-                                                                  selectedSort
-                                                                      .movies
-                                                                      .length -
-                                                                      1
-                                                              ].createdAt,
-                                                      },
-                                                  })
-                                                : fetchMorePop({
-                                                      variables: {
-                                                          limit:
-                                                              variablesPop?.limit,
-                                                          cursor:
-                                                              selectedSort
-                                                                  .movies
-                                                                  .length,
-                                                      },
-                                                  });
-                                        }
-                                    }}
-                                >
-                                    Show more
-                                </Button>
+                                {sort === 0 ? (
+                                    <Button
+                                        variantColor="teal"
+                                        isLoading={loading}
+                                        m={5}
+                                        onClick={() => {
+                                            fetchMore({
+                                                variables: {
+                                                    limit: variables?.limit,
+                                                    cursor:
+                                                        selectedSort.movies[
+                                                            selectedSort.movies
+                                                                .length - 1
+                                                        ].createdAt,
+                                                },
+                                            });
+                                        }}
+                                    >
+                                        Show more
+                                    </Button>
+                                ) : null}
+                                {sort === 1 ? (
+                                    <Button
+                                        variantColor="teal"
+                                        isLoading={loading}
+                                        m={5}
+                                        onClick={() => {
+                                            fetchMorePop({
+                                                variables: {
+                                                    limit: variablesPop?.limit,
+                                                    cursor:
+                                                        selectedSort.movies
+                                                            .length,
+                                                },
+                                            });
+                                        }}
+                                    >
+                                        Show more
+                                    </Button>
+                                ) : null}
+                                {sort === 2 ? (
+                                    <Button
+                                        variantColor="teal"
+                                        isLoading={loading}
+                                        m={5}
+                                        onClick={() => {
+                                            fetchMoreMy({
+                                                variables: {
+                                                    limit: variablesMy?.limit,
+                                                    creatorId:
+                                                        variablesMy?.creatorId,
+                                                    cursor:
+                                                        selectedSort.movies[
+                                                            selectedSort.movies
+                                                                .length - 1
+                                                        ].createdAt,
+                                                },
+                                            });
+                                        }}
+                                    >
+                                        Show more
+                                    </Button>
+                                ) : null}
                             </Flex>
                         ) : null}
                     </>

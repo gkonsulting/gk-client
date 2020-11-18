@@ -1,0 +1,8 @@
+query getMyMovies($limit: Int!, $creatorId: Int!, $cursor: String) {
+    getMyMovies(cursor: $cursor, creatorId: $creatorId, limit: $limit) {
+        hasMore
+        movies {
+            ...MovieInfo
+        }
+    }
+}

@@ -50,7 +50,6 @@ export const MovieOptionsField: React.FC<MovieOptionsFieldProps> = ({
 }) => {
     const [deleteMovie] = useDeleteMovieMutation();
     const [updateSeen] = useUpdateSeenMutation();
-    const { data } = useMeQuery();
     const router = useRouter();
     return (
         <Flex pr={6}>
