@@ -10,6 +10,9 @@ fragment MovieInfo on Movie {
     points
     voteStatus
     seen
+    userStars
+    starStatus
+    totalStars
     creator {
         id
         username

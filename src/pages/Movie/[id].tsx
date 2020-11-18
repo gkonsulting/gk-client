@@ -54,13 +54,7 @@ const Movie = ({}) => {
             <Navbar />
             <Wrapper>
                 <Flex direction="row" wrap="wrap" justify="center">
-                    <Box
-                        borderWidth="1px"
-                        rounded="lg"
-                        overflow="hidden"
-                        m={5}
-                        opacity={data.getMovie.seen ? 0.2 : 1}
-                    >
+                    <Box borderWidth="1px" rounded="lg" overflow="hidden" m={5}>
                         <Flex
                             align="center"
                             h={380}
@@ -74,7 +68,7 @@ const Movie = ({}) => {
                             />
                         </Flex>
 
-                        <Box p="6">
+                        <Box p="6" opacity={data.getMovie.seen ? 0.2 : 1}>
                             <Stack spacing={5}>
                                 <Box lineHeight="tight">
                                     <Text
@@ -128,8 +122,10 @@ const Movie = ({}) => {
                                               `"`}
                                     </Text>
                                 </Box>
-                                <StarField movie={data.getMovie} />
                             </Stack>
+                        </Box>
+                        <Box ml="6" mb="5">
+                            <StarField movie={data.getMovie} />
                         </Box>
                         <Flex justify="space-between" mb={5}>
                             <VoteField movie={data.getMovie} />

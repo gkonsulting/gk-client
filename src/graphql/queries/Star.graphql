@@ -1,0 +1,5 @@
+query getStar($movieId: Int!, $userId: Int!) {
+    getStar(movieId: $movieId, userId: $userId) {
+        value
+    }
+}

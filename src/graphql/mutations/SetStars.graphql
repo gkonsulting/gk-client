@@ -1,0 +1,3 @@
+mutation setStars($value: Int!, $movieId: Int!) {
+    setStars(value: $value, movieId: $movieId)
+}

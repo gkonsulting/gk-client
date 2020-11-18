@@ -18,6 +18,7 @@ export type Query = {
   getMyMovies: PaginatedMovies;
   getPopularMovies: PaginatedMovies;
   getMovie?: Maybe<Movie>;
+  getStar: Star;
 };
 
 
@@ -42,6 +43,12 @@ export type QueryGetPopularMoviesArgs = {
 
 export type QueryGetMovieArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryGetStarArgs = {
+  userId: Scalars['Int'];
+  movieId: Scalars['Int'];
 };
 
 export type User = {
@@ -74,7 +81,15 @@ export type Movie = {
   rating: Scalars['String'];
   points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
+  userStars?: Maybe<Scalars['Int']>;
+  totalStars: Scalars['Float'];
+  starStatus?: Maybe<Scalars['Int']>;
   seen?: Maybe<Scalars['Boolean']>;
+};
+
+export type Star = {
+  __typename?: 'Star';
+  value: Scalars['Float'];
 };
 
 export type Mutation = {
@@ -85,6 +100,7 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   vote: Scalars['Boolean'];
+  setStars: Scalars['Boolean'];
   addMovie: Movie;
   updateMovie?: Maybe<Movie>;
   updateSeen?: Maybe<Movie>;
@@ -115,6 +131,12 @@ export type MutationLoginArgs = {
 
 
 export type MutationVoteArgs = {
+  value: Scalars['Int'];
+  movieId: Scalars['Int'];
+};
+
+
+export type MutationSetStarsArgs = {
   value: Scalars['Int'];
   movieId: Scalars['Int'];
 };
@@ -170,7 +192,7 @@ export type MovieInput = {
 
 export type MovieInfoFragment = (
   { __typename?: 'Movie' }
-  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen'>
+  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen' | 'userStars' | 'starStatus' | 'totalStars'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username' | 'email'>
@@ -260,6 +282,17 @@ export type RegisterMutation = (
     { __typename?: 'UserResponse' }
     & RegularUserResponseFragment
   ) }
+);
+
+export type SetStarsMutationVariables = Exact<{
+  value: Scalars['Int'];
+  movieId: Scalars['Int'];
+}>;
+
+
+export type SetStarsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'setStars'>
 );
 
 export type VoteMutationVariables = Exact<{
@@ -405,6 +438,20 @@ export type GetPopularMoviesQuery = (
   ) }
 );
 
+export type GetStarQueryVariables = Exact<{
+  movieId: Scalars['Int'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type GetStarQuery = (
+  { __typename?: 'Query' }
+  & { getStar: (
+    { __typename?: 'Star' }
+    & Pick<Star, 'value'>
+  ) }
+);
+
 export const MovieInfoFragmentDoc = gql`
     fragment MovieInfo on Movie {
   id
@@ -418,6 +465,9 @@ export const MovieInfoFragmentDoc = gql`
   points
   voteStatus
   seen
+  userStars
+  starStatus
+  totalStars
   creator {
     id
     username
@@ -617,6 +667,37 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const SetStarsDocument = gql`
+    mutation setStars($value: Int!, $movieId: Int!) {
+  setStars(value: $value, movieId: $movieId)
+}
+    `;
+export type SetStarsMutationFn = Apollo.MutationFunction<SetStarsMutation, SetStarsMutationVariables>;
+
+/**
+ * __useSetStarsMutation__
+ *
+ * To run a mutation, you first call `useSetStarsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetStarsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setStarsMutation, { data, loading, error }] = useSetStarsMutation({
+ *   variables: {
+ *      value: // value for 'value'
+ *      movieId: // value for 'movieId'
+ *   },
+ * });
+ */
+export function useSetStarsMutation(baseOptions?: Apollo.MutationHookOptions<SetStarsMutation, SetStarsMutationVariables>) {
+        return Apollo.useMutation<SetStarsMutation, SetStarsMutationVariables>(SetStarsDocument, baseOptions);
+      }
+export type SetStarsMutationHookResult = ReturnType<typeof useSetStarsMutation>;
+export type SetStarsMutationResult = Apollo.MutationResult<SetStarsMutation>;
+export type SetStarsMutationOptions = Apollo.BaseMutationOptions<SetStarsMutation, SetStarsMutationVariables>;
 export const VoteDocument = gql`
     mutation vote($value: Int!, $movieId: Int!) {
   vote(value: $value, movieId: $movieId)
@@ -963,3 +1044,37 @@ export function useGetPopularMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetPopularMoviesQueryHookResult = ReturnType<typeof useGetPopularMoviesQuery>;
 export type GetPopularMoviesLazyQueryHookResult = ReturnType<typeof useGetPopularMoviesLazyQuery>;
 export type GetPopularMoviesQueryResult = Apollo.QueryResult<GetPopularMoviesQuery, GetPopularMoviesQueryVariables>;
+export const GetStarDocument = gql`
+    query getStar($movieId: Int!, $userId: Int!) {
+  getStar(movieId: $movieId, userId: $userId) {
+    value
+  }
+}
+    `;
+
+/**
+ * __useGetStarQuery__
+ *
+ * To run a query within a React component, call `useGetStarQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStarQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStarQuery({
+ *   variables: {
+ *      movieId: // value for 'movieId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetStarQuery(baseOptions: Apollo.QueryHookOptions<GetStarQuery, GetStarQueryVariables>) {
+        return Apollo.useQuery<GetStarQuery, GetStarQueryVariables>(GetStarDocument, baseOptions);
+      }
+export function useGetStarLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStarQuery, GetStarQueryVariables>) {
+          return Apollo.useLazyQuery<GetStarQuery, GetStarQueryVariables>(GetStarDocument, baseOptions);
+        }
+export type GetStarQueryHookResult = ReturnType<typeof useGetStarQuery>;
+export type GetStarLazyQueryHookResult = ReturnType<typeof useGetStarLazyQuery>;
+export type GetStarQueryResult = Apollo.QueryResult<GetStarQuery, GetStarQueryVariables>;
