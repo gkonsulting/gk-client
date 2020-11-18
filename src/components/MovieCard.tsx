@@ -13,6 +13,7 @@ import { MovieInfoFragment, useMeQuery } from "../generated/graphql";
 import NextLink from "next/link";
 import { VoteField } from "./VoteField";
 import { MovieOptionsField } from "./MovieOptionsField";
+import { StarField } from "./StarField";
 
 interface MovieCardProps {
     movie: MovieInfoFragment;
@@ -25,7 +26,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <Box
             opacity={movie.seen ? 0.2 : 1}
             w="sm"
-            h={650}
+            h={660}
             borderWidth="1px"
             rounded="lg"
             overflow="hidden"
@@ -36,7 +37,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                         <Flex h={230} w="100%" direction="column">
                             <Image src={movie?.poster} />
                         </Flex>
-
                         <Box mx="6">
                             <Stack spacing={4}>
                                 <Box lineHeight="tight">
@@ -79,30 +79,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                                           "..."
                                         : movie?.description}
                                 </Box>
-
-                                <Box d="flex" alignItems="center">
-                                    {Array(10)
-                                        .fill("")
-                                        .map((_, i) => (
-                                            <Icon
-                                                name="star"
-                                                key={i}
-                                                color={
-                                                    i < parseInt(movie?.rating)
-                                                        ? "teal.500"
-                                                        : "gray.300"
-                                                }
-                                            />
-                                        ))}
-                                    <Text
-                                        ml={2}
-                                        color="teal.500"
-                                        fontWeight="bold"
-                                    >
-                                        {" "}
-                                        {" " + movie?.rating + "/10"}
-                                    </Text>
-                                </Box>
                                 <Box lineHeight="tight">
                                     <Text fontWeight="bold" fontSize="md">
                                         Why should we watch this movie?
@@ -123,6 +99,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                         </Box>
                     </Link>
                 </NextLink>
+                <StarField movie={movie} />
+
                 <Flex justify="space-between" mt={4}>
                     <VoteField movie={movie} />
                     {data?.me?.id !== movie?.creator.id ? null : (
