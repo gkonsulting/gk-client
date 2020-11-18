@@ -86,7 +86,8 @@ const Movies = () => {
     if (
         (!loading && !data) ||
         (!loadingPop && !dataPop) ||
-        (!loadingMy && !dataMy)
+        (!loadingMy && !dataMy) ||
+        (!loadingWatched && !dataWatched)
     ) {
         return <div>No data</div>;
     }
