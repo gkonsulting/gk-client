@@ -1,30 +1,20 @@
 import React, { useState } from "react";
-import {
-    Box,
-    Badge,
-    Flex,
-    Icon,
-    IconButton,
-    Stack,
-    Text,
-    Link,
-} from "@chakra-ui/core";
+import { Box, Badge, Flex, Icon, Stack, Text } from "@chakra-ui/core";
 import { useGetMovieFromUrl } from "../../utils/useGetMovieFromUrl";
 import { Navbar } from "../../components/Navbar";
 import { Wrapper } from "../../components/Wrapper";
 import { userAuth } from "../../utils/userAuth";
-import { useDeleteMovieMutation, useMeQuery } from "../../generated/graphql";
-import NextLink from "next/link";
+import { useMeQuery } from "../../generated/graphql";
 import { withApollo } from "../../utils/withApollo";
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
 import { VoteField } from "../../components/VoteField";
 import Loader from "react-loader-spinner";
+import { MovieOptionsField } from "../../components/MovieOptionsField";
 
 const Movie = ({}) => {
     const { data, error, loading } = useGetMovieFromUrl();
     const [trailerUrl, setTrailerUrl] = useState<String>("");
-    const [deleteMovie] = useDeleteMovieMutation();
     const { data: meData } = useMeQuery();
     const router = useRouter();
     userAuth(router.query.id as string);
@@ -64,11 +54,11 @@ const Movie = ({}) => {
             <Wrapper>
                 <Flex direction="row" wrap="wrap" justify="center">
                     <Box
-                        w="6xl"
                         borderWidth="1px"
                         rounded="lg"
                         overflow="hidden"
                         m={5}
+                        opacity={data.getMovie.seen ? 0.2 : 1}
                     >
                         <Flex
                             align="center"
@@ -86,7 +76,15 @@ const Movie = ({}) => {
                         <Box p="6">
                             <Stack spacing={5}>
                                 <Box lineHeight="tight">
-                                    <Text fontWeight="bold" fontSize="3xl">
+                                    <Text
+                                        textDecoration={
+                                            data.getMovie.seen
+                                                ? "line-through"
+                                                : "none"
+                                        }
+                                        fontWeight="bold"
+                                        fontSize="3xl"
+                                    >
                                         {data.getMovie.title}
                                     </Text>
                                 </Box>
@@ -161,47 +159,7 @@ const Movie = ({}) => {
                             <VoteField movie={data.getMovie} />
                             {meData?.me?.id !==
                             data.getMovie?.creator.id ? null : (
-                                <Flex pr={6}>
-                                    <NextLink
-                                        href="/Movie/Update/[id]"
-                                        as={`/Movie/Update/${data.getMovie?.id}`}
-                                    >
-                                        <Link>
-                                            <IconButton
-                                                icon="edit"
-                                                size="sm"
-                                                variantColor="teal"
-                                                aria-label="Update Movie"
-                                                w={10}
-                                                mr={3}
-                                            />
-                                        </Link>
-                                    </NextLink>
-                                    <IconButton
-                                        icon="delete"
-                                        size="sm"
-                                        variantColor="teal"
-                                        aria-label="Delete Movie"
-                                        onClick={async () =>
-                                            await deleteMovie({
-                                                variables: {
-                                                    id: data.getMovie
-                                                        ?.id as number,
-                                                },
-                                                update: (cache) => {
-                                                    cache.evict({
-                                                        id:
-                                                            "Movie:" +
-                                                            data.getMovie?.id,
-                                                    });
-                                                },
-                                            }).then(() => {
-                                                router.push("/Movies");
-                                            })
-                                        }
-                                        w={10}
-                                    />
-                                </Flex>
+                                <MovieOptionsField movie={data.getMovie} />
                             )}
                         </Flex>
                     </Box>

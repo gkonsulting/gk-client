@@ -6,35 +6,30 @@ import {
     Flex,
     Text,
     Stack,
-    IconButton,
     Link,
 } from "@chakra-ui/core";
 import React from "react";
-import {
-    MovieInfoFragment,
-    UpdateSeenMutation,
-    useDeleteMovieMutation,
-    useMeQuery,
-    useUpdateSeenMutation,
-} from "../generated/graphql";
+import { MovieInfoFragment, useMeQuery } from "../generated/graphql";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { VoteField } from "./VoteField";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { ApolloCache, gql } from "@apollo/client";
+import { MovieOptionsField } from "./MovieOptionsField";
 
 interface MovieCardProps {
     movie: MovieInfoFragment;
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-    const [deleteMovie] = useDeleteMovieMutation();
-    const [updateSeen] = useUpdateSeenMutation();
     const { data } = useMeQuery();
-    const router = useRouter();
 
     return (
-        <Box w="sm" h={650} borderWidth="1px" rounded="lg" overflow="hidden">
+        <Box
+            opacity={movie.seen ? 0.2 : 1}
+            w="sm"
+            h={650}
+            borderWidth="1px"
+            rounded="lg"
+            overflow="hidden"
+        >
             <Flex direction="column" justify="space-between">
                 <NextLink href="/Movie/[id]" as={`/Movie/${movie?.id}`}>
                     <Link _hover={{ textDecoration: "none" }}>
@@ -129,128 +124,10 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                 <Flex justify="space-between" mt={4}>
                     <VoteField movie={movie} />
                     {data?.me?.id !== movie?.creator.id ? null : (
-                        <Flex pr={6}>
-                            <NextLink
-                                href="/Movie/Update/[id]"
-                                as={`/Movie/Update/${movie?.id}`}
-                            >
-                                <Link>
-                                    <IconButton
-                                        icon="edit"
-                                        size="sm"
-                                        variantColor="teal"
-                                        aria-label="Update Movie"
-                                        w={10}
-                                        mr={3}
-                                    />
-                                </Link>
-                            </NextLink>
-                            <IconButton
-                                icon="delete"
-                                size="sm"
-                                variantColor="teal"
-                                aria-label="Delete Movie"
-                                mr={3}
-                                w={10}
-                                onClick={async () =>
-                                    await deleteMovie({
-                                        variables: {
-                                            id: movie?.id,
-                                        },
-                                        update: (cache) => {
-                                            cache.evict({
-                                                id: "Movie:" + movie?.id,
-                                            });
-                                        },
-                                    }).then(() => {
-                                        router.push("/Movies");
-                                    })
-                                }
-                            />
-                            {!movie.seen ? (
-                                <IconButton
-                                    variantColor="teal"
-                                    size="sm"
-                                    icon={FaEye}
-                                    aria-label="Have watched"
-                                    w={10}
-                                    onClick={async () => {
-                                        await updateSeen({
-                                            variables: {
-                                                id: movie!.id,
-                                                seen: true,
-                                            },
-                                            update: (cache) =>
-                                                updateAfterSeen(
-                                                    true,
-                                                    movie.id,
-                                                    cache
-                                                ),
-                                        });
-                                    }}
-                                />
-                            ) : (
-                                <IconButton
-                                    variantColor="teal"
-                                    size="sm"
-                                    icon={FaEyeSlash}
-                                    aria-label="Have not watched"
-                                    w={10}
-                                    onClick={async () => {
-                                        await updateSeen({
-                                            variables: {
-                                                id: movie!.id,
-                                                seen: false,
-                                            },
-                                            update: (cache) =>
-                                                updateAfterSeen(
-                                                    false,
-                                                    movie.id,
-                                                    cache
-                                                ),
-                                        });
-                                    }}
-                                />
-                            )}
-                        </Flex>
+                        <MovieOptionsField movie={movie} />
                     )}
                 </Flex>
             </Flex>
         </Box>
     );
-};
-
-const updateAfterSeen = (
-    value: boolean,
-    movieId: number,
-    cache: ApolloCache<UpdateSeenMutation>
-) => {
-    const data = cache.readFragment<{
-        id: number;
-        seen: boolean;
-    }>({
-        id: "Movie:" + movieId,
-        fragment: gql`
-            fragment _ on Movie {
-                id
-                seen
-            }
-        `,
-    });
-
-    if (data) {
-        if (data.seen === value) {
-            return;
-        }
-        const newValue = value;
-        cache.writeFragment({
-            id: "Movie:" + movieId,
-            fragment: gql`
-                fragment __ on Movie {
-                    seen
-                }
-            `,
-            data: { seen: newValue },
-        });
-    }
 };

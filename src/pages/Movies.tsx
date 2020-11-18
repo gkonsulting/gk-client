@@ -1,6 +1,7 @@
 import { Wrapper } from "../components/Wrapper";
 import { Navbar } from "../components/Navbar";
 import {
+    MovieInfoFragment,
     useGetMoviesQuery,
     useGetPopularMoviesQuery,
 } from "../generated/graphql";
@@ -15,7 +16,10 @@ import NextLink from "next/link";
 const Movies = () => {
     userAuth();
 
-    const [sort, setSort] = React.useState(true);
+    const [sort, setSort] = React.useState(0);
+    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSort(parseInt(event.target.value));
+    };
 
     const { data, loading, variables, fetchMore } = useGetMoviesQuery({
         variables: {
@@ -40,8 +44,9 @@ const Movies = () => {
 
     let selectedSort: any = null;
 
-    if (sort) selectedSort = data?.getMovies;
-    else if (!sort) selectedSort = dataPop?.getPopularMovies;
+    if (sort === 0) selectedSort = data?.getMovies;
+    else if (sort === 1) selectedSort = dataPop?.getPopularMovies;
+
     if ((!loading && !data) || (!loadingPop && !dataPop)) {
         return <div>No data</div>;
     }
@@ -65,13 +70,13 @@ const Movies = () => {
                         <Select
                             variant="outline"
                             mx={5}
-                            placeholder="Created at descending"
                             bg="rgba(255,255,255,0.06)"
-                            onChange={() => setSort(!sort)}
+                            value={sort}
+                            onChange={handleSelect}
                         >
-                            <option onClick={() => setSort(!sort)}>
-                                Points descending
-                            </option>
+                            <option value={0}>Created DESC</option>
+                            <option value={1}>Points DESC</option>
+                            <option value={2}>My movies</option>
                         </Select>
                     </Flex>
                 </Flex>
@@ -95,7 +100,7 @@ const Movies = () => {
                             {!data
                                 ? null
                                 : selectedSort?.movies.map(
-                                      (movie: any, i: number) =>
+                                      (movie: MovieInfoFragment, i: number) =>
                                           !movie ? null : (
                                               <Flex
                                                   direction="column"
@@ -113,30 +118,36 @@ const Movies = () => {
                                 <Button
                                     variantColor="teal"
                                     isLoading={loading}
+                                    m={5}
                                     onClick={() => {
-                                        sort
-                                            ? fetchMore({
-                                                  variables: {
-                                                      limit: variables?.limit,
-                                                      cursor:
-                                                          selectedSort.movies[
+                                        {
+                                            sort === 0
+                                                ? fetchMore({
+                                                      variables: {
+                                                          limit:
+                                                              variables?.limit,
+                                                          cursor:
+                                                              selectedSort
+                                                                  .movies[
+                                                                  selectedSort
+                                                                      .movies
+                                                                      .length -
+                                                                      1
+                                                              ].createdAt,
+                                                      },
+                                                  })
+                                                : fetchMorePop({
+                                                      variables: {
+                                                          limit:
+                                                              variablesPop?.limit,
+                                                          cursor:
                                                               selectedSort
                                                                   .movies
-                                                                  .length - 1
-                                                          ].createdAt,
-                                                  },
-                                              })
-                                            : fetchMorePop({
-                                                  variables: {
-                                                      limit:
-                                                          variablesPop?.limit,
-                                                      cursor:
-                                                          selectedSort.movies
-                                                              .length - 1,
-                                                  },
-                                              });
+                                                                  .length,
+                                                      },
+                                                  });
+                                        }
                                     }}
-                                    m={5}
                                 >
                                     Show more
                                 </Button>
