@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import {
     MovieInfoFragment,
     useGetMoviesQuery,
+    useGetMoviesWatchedQuery,
     useGetMyMoviesQuery,
     useGetPopularMoviesQuery,
     useMeQuery,
@@ -63,11 +64,24 @@ const Movies = () => {
         },
     });
 
+    const {
+        data: dataWatched,
+        loading: loadingWatched,
+        variables: variablesWatched,
+        fetchMore: fetchMoreWatched,
+    } = useGetMoviesWatchedQuery({
+        variables: {
+            limit: 3,
+            cursor: null,
+        },
+    });
+
     let selectedSort: any = null;
 
     if (sort === 0) selectedSort = data?.getMovies;
     else if (sort === 1) selectedSort = dataPop?.getPopularMovies;
     else if (sort === 2) selectedSort = dataMy?.getMyMovies;
+    else if (sort === 3) selectedSort = dataWatched?.getMoviesWatched;
 
     if (
         (!loading && !data) ||
@@ -103,6 +117,7 @@ const Movies = () => {
                             <option value={0}>Created DESC</option>
                             <option value={1}>Points DESC</option>
                             <option value={2}>My movies</option>
+                            <option value={3}>Movies watched</option>
                         </Select>
                     </Flex>
                 </Flex>
@@ -192,6 +207,28 @@ const Movies = () => {
                                                     limit: variablesMy?.limit,
                                                     creatorId:
                                                         variablesMy?.creatorId,
+                                                    cursor:
+                                                        selectedSort.movies[
+                                                            selectedSort.movies
+                                                                .length - 1
+                                                        ].createdAt,
+                                                },
+                                            });
+                                        }}
+                                    >
+                                        Show more
+                                    </Button>
+                                ) : null}
+                                {sort === 3 ? (
+                                    <Button
+                                        variantColor="teal"
+                                        isLoading={loading}
+                                        m={5}
+                                        onClick={() => {
+                                            fetchMoreWatched({
+                                                variables: {
+                                                    limit:
+                                                        variablesWatched?.limit,
                                                     cursor:
                                                         selectedSort.movies[
                                                             selectedSort.movies

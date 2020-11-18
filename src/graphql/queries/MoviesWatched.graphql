@@ -1,0 +1,8 @@
+query getMoviesWatched($limit: Int!, $cursor: String) {
+    getMoviesWatched(cursor: $cursor, limit: $limit) {
+        hasMore
+        movies {
+            ...MovieInfo
+        }
+    }
+}

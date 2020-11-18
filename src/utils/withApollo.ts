@@ -62,6 +62,21 @@ const createClient = (ctx: NextPageContext) =>
                                 };
                             },
                         },
+                        getMoviesWatched: {
+                            keyArgs: [],
+                            merge(
+                                existing: PaginatedMovies | undefined,
+                                incoming: PaginatedMovies
+                            ): PaginatedMovies {
+                                return {
+                                    ...incoming,
+                                    movies: [
+                                        ...(existing?.movies || []),
+                                        ...incoming.movies,
+                                    ],
+                                };
+                            },
+                        },
                     },
                 },
             },
