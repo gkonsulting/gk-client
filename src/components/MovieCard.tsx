@@ -26,7 +26,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <Box
             opacity={movie.seen ? 0.2 : 1}
             w="sm"
-            h={660}
+            h={700}
             borderWidth="1px"
             rounded="lg"
             overflow="hidden"
@@ -99,9 +99,10 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                         </Box>
                     </Link>
                 </NextLink>
-                <StarField movie={movie} />
-
-                <Flex justify="space-between" mt={4}>
+                <Flex mx={6}>
+                    <StarField movie={movie} />
+                </Flex>
+                <Flex justify="space-between" mt={2}>
                     <VoteField movie={movie} />
                     {data?.me?.id !== movie?.creator.id ? null : (
                         <MovieOptionsField movie={movie} />

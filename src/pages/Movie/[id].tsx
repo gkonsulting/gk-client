@@ -11,6 +11,7 @@ import ReactPlayer from "react-player";
 import { VoteField } from "../../components/VoteField";
 import Loader from "react-loader-spinner";
 import { MovieOptionsField } from "../../components/MovieOptionsField";
+import { StarField } from "../../components/StarField";
 
 const Movie = ({}) => {
     const { data, error, loading } = useGetMovieFromUrl();
@@ -111,32 +112,6 @@ const Movie = ({}) => {
 
                                 <Box>{data.getMovie.description}</Box>
 
-                                <Box d="flex" alignItems="center">
-                                    {Array(10)
-                                        .fill("")
-                                        .map((_, i) => (
-                                            <Icon
-                                                name="star"
-                                                key={i}
-                                                color={
-                                                    i <
-                                                    parseInt(
-                                                        data!.getMovie!.rating
-                                                    )
-                                                        ? "teal.500"
-                                                        : "gray.300"
-                                                }
-                                            />
-                                        ))}
-                                    <Text
-                                        ml={2}
-                                        color="teal.500"
-                                        fontWeight="bold"
-                                    >
-                                        {" "}
-                                        {" " + data.getMovie.rating + "/10"}
-                                    </Text>
-                                </Box>
                                 <Box lineHeight="tight">
                                     <Text fontWeight="bold" fontSize="md">
                                         Why should we watch this movie?
@@ -153,6 +128,7 @@ const Movie = ({}) => {
                                               `"`}
                                     </Text>
                                 </Box>
+                                <StarField movie={data.getMovie} />
                             </Stack>
                         </Box>
                         <Flex justify="space-between" mb={5}>

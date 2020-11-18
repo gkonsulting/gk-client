@@ -10,7 +10,7 @@ export const StarField: React.FC<StarFieldProps> = ({ movie }) => {
     const [stars, setStars] = React.useState(0);
 
     return (
-        <Flex mt={2} mx={6} direction="column">
+        <Flex mt={2} direction="column">
             <Flex direction="column">
                 <Flex>
                     <Text fontWeight="bold" fontSize="md">
@@ -50,6 +50,14 @@ export const StarField: React.FC<StarFieldProps> = ({ movie }) => {
                             color={i + 1 <= stars ? "teal.500" : "gray.300"}
                         />
                     ))}
+            </Flex>
+            <Flex my={2}>
+                <Text fontWeight="bold" fontSize="md">
+                    The Bois' rating:
+                </Text>
+                <Text ml={2} fontWeight="bold" fontSize="md" color="teal.500">
+                    {stars + "/10"}
+                </Text>
             </Flex>
         </Flex>
     );
