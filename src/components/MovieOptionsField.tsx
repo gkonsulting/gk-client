@@ -2,7 +2,7 @@ import { ApolloCache, gql } from "@apollo/client";
 import { Flex, Link, IconButton } from "@chakra-ui/core";
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { MovieInfoFragment, UpdateSeenMutation, useDeleteMovieMutation, useMeQuery, useUpdateSeenMutation } from "../generated/graphql";
+import { MovieInfoFragment, UpdateSeenMutation, useDeleteMovieMutation, useUpdateSeenMutation } from "../generated/graphql";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
