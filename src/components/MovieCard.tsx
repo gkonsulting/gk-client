@@ -1,13 +1,4 @@
-import {
-    Box,
-    Badge,
-    Icon,
-    Image,
-    Flex,
-    Text,
-    Stack,
-    Link,
-} from "@chakra-ui/core";
+import { Box, Badge, Image, Flex, Text, Stack, Link } from "@chakra-ui/core";
 import React from "react";
 import { MovieInfoFragment, useMeQuery } from "../generated/graphql";
 import NextLink from "next/link";

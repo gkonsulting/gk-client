@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Badge, Flex, Icon, Stack, Text } from "@chakra-ui/core";
+import { Box, Badge, Flex, Stack, Text } from "@chakra-ui/core";
 import { useGetMovieFromUrl } from "../../utils/useGetMovieFromUrl";
 import { Navbar } from "../../components/Navbar";
 import { Wrapper } from "../../components/Wrapper";
