@@ -98,8 +98,15 @@ export const StarField: React.FC<StarFieldProps> = ({ movie }) => {
                         fontSize="md"
                         color="teal.500"
                     >
-                        {movie.totalStars /
-                            (movie.userStars !== 0 ? movie!.userStars! : 1) +
+
+                        {Math.round(
+                            (movie.totalStars /
+                                (movie.userStars !== 0
+                                    ? movie!.userStars!
+                                    : 1)) *
+                                10
+                        ) /
+                            10 +
                             "/10"}
                     </Text>
                 </Flex>
@@ -117,6 +124,7 @@ const updateAfterStar = (
         id: number;
         totalStars: number;
         starStatus: number | null;
+        userStars: number | null;
     }>({
         id: "Movie:" + movieId,
         fragment: gql`
@@ -124,6 +132,7 @@ const updateAfterStar = (
                 id
                 totalStars
                 starStatus
+                userStars
             }
         `,
     });
@@ -136,15 +145,21 @@ const updateAfterStar = (
             (data.totalStars as number) +
             value -
             (data.starStatus ? data.starStatus : 0);
+        const newUserStars = (data.userStars as number) + 1;
         cache.writeFragment({
             id: "Movie:" + movieId,
             fragment: gql`
                 fragment __ on Movie {
                     totalStars
                     starStatus
+                    userStars
                 }
             `,
-            data: { totalStars: newPoints, starStatus: value },
+            data: {
+                totalStars: newPoints,
+                starStatus: value,
+                userStars: newUserStars,
+            },
         });
     }
 };
