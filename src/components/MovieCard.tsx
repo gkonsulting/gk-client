@@ -45,9 +45,11 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
                                             movie.seen ? "line-through" : "none"
                                         }
                                         fontWeight="bold"
-                                        fontSize="3xl"
+                                        fontSize="2xl"
                                     >
-                                        {movie?.title}
+                                        {movie?.title.length > 30
+                                            ? movie.title.slice(0, 30)
+                                            : movie.title}
                                     </Text>
                                 </Box>
                                 <Box d="flex" alignItems="baseline">
