@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Box, Badge, Flex, Stack, Text } from "@chakra-ui/core";
 import { useGetMovieFromUrl } from "../../utils/useGetMovieFromUrl";
 import { Navbar } from "../../components/Navbar";
-import { Wrapper } from "../../components/Wrapper";
 import { userAuth } from "../../utils/userAuth";
 import { useMeQuery } from "../../generated/graphql";
 import { withApollo } from "../../utils/withApollo";
@@ -52,91 +51,83 @@ const Movie = ({}) => {
     return (
         <>
             <Navbar />
-            <Wrapper>
-                <Flex direction="row" wrap="wrap" justify="center">
-                    <Box borderWidth="1px" rounded="lg" overflow="hidden" m={5}>
-                        <Flex
-                            align="center"
-                            h={380}
-                            w="100%"
-                            direction="column"
-                        >
-                            <ReactPlayer
-                                width="100%"
-                                controls={true}
-                                url={trailerUrl as string}
-                            />
-                        </Flex>
+            <Flex direction="row" wrap="wrap" justify="center">
+                <Box borderWidth="1px" rounded="lg" overflow="hidden" my={5}>
+                    <Flex align="center" h={380} w="100%" direction="column">
+                        <ReactPlayer
+                            width="100%"
+                            controls={true}
+                            url={trailerUrl as string}
+                        />
+                    </Flex>
 
-                        <Box p="6" opacity={data.getMovie.seen ? 0.2 : 1}>
-                            <Stack spacing={5}>
-                                <Box lineHeight="tight">
-                                    <Text
-                                        textDecoration={
-                                            data.getMovie.seen
-                                                ? "line-through"
-                                                : "none"
-                                        }
-                                        fontWeight="bold"
-                                        fontSize="3xl"
-                                    >
-                                        {data.getMovie.title}
-                                    </Text>
-                                </Box>
-                                <Box d="flex" alignItems="baseline">
-                                    <Badge
-                                        rounded="full"
-                                        px="3"
-                                        variantColor="teal"
-                                    >
-                                        Genre
-                                    </Badge>
-                                </Box>
-                                <Box
-                                    fontWeight="semibold"
-                                    as="h4"
-                                    lineHeight="tight"
-                                    isTruncated
+                    <Box p="6" opacity={data.getMovie.seen ? 0.2 : 1}>
+                        <Stack spacing={5}>
+                            <Box lineHeight="tight">
+                                <Text
+                                    textDecoration={
+                                        data.getMovie.seen
+                                            ? "line-through"
+                                            : "none"
+                                    }
+                                    fontWeight="bold"
+                                    fontSize="3xl"
                                 >
-                                    <Text>
-                                        Suggested by:{" "}
-                                        {data.getMovie.creator.username.toUpperCase()}
-                                    </Text>
-                                </Box>
+                                    {data.getMovie.title}
+                                </Text>
+                            </Box>
+                            <Box d="flex" alignItems="baseline">
+                                <Badge
+                                    rounded="full"
+                                    px="3"
+                                    variantColor="teal"
+                                >
+                                    Genre
+                                </Badge>
+                            </Box>
+                            <Box
+                                fontWeight="semibold"
+                                as="h4"
+                                lineHeight="tight"
+                                isTruncated
+                            >
+                                <Text>
+                                    Suggested by:{" "}
+                                    {data.getMovie.creator.username.toUpperCase()}
+                                </Text>
+                            </Box>
 
-                                <Box>{data.getMovie.description}</Box>
+                            <Box>{data.getMovie.description}</Box>
 
-                                <Box lineHeight="tight">
-                                    <Text fontWeight="bold" fontSize="md">
-                                        Why should we watch this movie?
-                                    </Text>
-                                    <Text fontSize="md">
-                                        {data.getMovie.reason.length < 50
-                                            ? data.getMovie.creator.username.toUpperCase() +
-                                              `: "` +
-                                              data.getMovie.reason +
-                                              `"`
-                                            : data.getMovie.creator.username.toUpperCase() +
-                                              `: "` +
-                                              data.getMovie.reason +
-                                              `"`}
-                                    </Text>
-                                </Box>
-                            </Stack>
-                        </Box>
-                        <Box ml="6" mb="5">
-                            <StarField movie={data.getMovie} />
-                        </Box>
-                        <Flex justify="space-between" mb={5}>
-                            <VoteField movie={data.getMovie} />
-                            {meData?.me?.id !==
-                            data.getMovie?.creator.id ? null : (
-                                <MovieOptionsField movie={data.getMovie} />
-                            )}
-                        </Flex>
+                            <Box lineHeight="tight">
+                                <Text fontWeight="bold" fontSize="md">
+                                    Why should we watch this movie?
+                                </Text>
+                                <Text fontSize="md">
+                                    {data.getMovie.reason.length < 50
+                                        ? data.getMovie.creator.username.toUpperCase() +
+                                          `: "` +
+                                          data.getMovie.reason +
+                                          `"`
+                                        : data.getMovie.creator.username.toUpperCase() +
+                                          `: "` +
+                                          data.getMovie.reason +
+                                          `"`}
+                                </Text>
+                            </Box>
+                        </Stack>
                     </Box>
-                </Flex>
-            </Wrapper>
+                    <Box ml="6" mb="5">
+                        <StarField movie={data.getMovie} />
+                    </Box>
+                    <Flex justify="space-between" mb={5}>
+                        <VoteField movie={data.getMovie} />
+                        {meData?.me?.id !== data.getMovie?.creator.id ? null : (
+                            <MovieOptionsField movie={data.getMovie} />
+                        )}
+                    </Flex>
+                </Box>
+            </Flex>
         </>
     );
 };
