@@ -88,6 +88,7 @@ export type Movie = {
   rating: Scalars['String'];
   points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
+  userVotes?: Maybe<Scalars['Int']>;
   userStars?: Maybe<Scalars['Int']>;
   totalStars: Scalars['Float'];
   starStatus?: Maybe<Scalars['Int']>;
@@ -199,7 +200,7 @@ export type MovieInput = {
 
 export type MovieInfoFragment = (
   { __typename?: 'Movie' }
-  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen' | 'userStars' | 'starStatus' | 'totalStars'>
+  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen' | 'userStars' | 'userVotes' | 'starStatus' | 'totalStars'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username' | 'email'>
@@ -491,6 +492,7 @@ export const MovieInfoFragmentDoc = gql`
   voteStatus
   seen
   userStars
+  userVotes
   starStatus
   totalStars
   creator {

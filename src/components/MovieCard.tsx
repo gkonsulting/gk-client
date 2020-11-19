@@ -8,15 +8,16 @@ import { StarField } from "./StarField";
 
 interface MovieCardProps {
     movie: MovieInfoFragment;
+    sortedSeen?: number;
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, sortedSeen }) => {
     const { data } = useMeQuery();
 
     return (
-        <Box w="sm" h={700} borderWidth="1px" rounded="lg" overflow="hidden">
+        <Box w="sm" h={720} borderWidth="1px" rounded="lg" overflow="hidden">
             <Flex direction="column" justify="space-between">
-                <Box opacity={movie.seen ? 0.2 : 1}>
+                <Box opacity={movie.seen && sortedSeen !== 3 ? 0.2 : 1}>
                     <NextLink href="/Movie/[id]" as={`/Movie/${movie?.id}`}>
                         <Link _hover={{ textDecoration: "none" }}>
                             <Flex h={230} w="100%" direction="column">

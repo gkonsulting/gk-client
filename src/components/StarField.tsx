@@ -12,18 +12,11 @@ interface StarFieldProps {
 }
 
 export const StarField: React.FC<StarFieldProps> = ({ movie }) => {
-    // const { data: meData } = useMeQuery();
-
-    // const { data, loading } = useGetStarQuery({
-    //     variables: { movieId: movie.id, userId: meData!.me!.id },
-    // });
 
     const [rate] = useSetStarsMutation();
 
     return (
         <Flex mt={2} direction="column">
-            {console.log(movie)}
-
             <Flex direction="column">
                 <Flex>
                     <Text fontWeight="bold" fontSize="md">

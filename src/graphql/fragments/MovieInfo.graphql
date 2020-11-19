@@ -11,6 +11,7 @@ fragment MovieInfo on Movie {
     voteStatus
     seen
     userStars
+    userVotes
     starStatus
     totalStars
     creator {

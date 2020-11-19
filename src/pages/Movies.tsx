@@ -150,7 +150,10 @@ const Movies = () => {
                                                   key={i}
                                                   my={3}
                                               >
-                                                  <MovieCard movie={movie} />
+                                                  <MovieCard
+                                                      movie={movie}
+                                                      sortedSeen={sort}
+                                                  />
                                               </Flex>
                                           )
                                   )}
