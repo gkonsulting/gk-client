@@ -28,7 +28,12 @@ const Movie = ({}) => {
 
     if (loading) {
         return (
-            <Flex justify="center">
+            <Flex
+                position="fixed"
+                top="50%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+            >
                 <Loader
                     type="Puff"
                     color="#00BFFF"
@@ -52,7 +57,7 @@ const Movie = ({}) => {
         <>
             <Navbar />
             <Flex direction="row" wrap="wrap" justify="center">
-                <Box borderWidth="1px" rounded="lg" overflow="hidden" my={5}>
+                <Box rounded="lg" overflow="hidden" mb={5}>
                     <Flex align="center" h={380} w="100%" direction="column">
                         <ReactPlayer
                             width="100%"
@@ -75,12 +80,21 @@ const Movie = ({}) => {
                                 >
                                     {data.getMovie.title}
                                 </Text>
+                                <Text
+                                    fontWeight="semibold"
+                                    letterSpacing="wide"
+                                    fontSize="xs"
+                                    color="gray.500"
+                                >
+                                    {data.getMovie.releasedAt}
+                                </Text>
                             </Box>
                             <Box d="flex" alignItems="baseline">
                                 <Badge
                                     rounded="full"
                                     px="3"
                                     variantColor="teal"
+                                    ml={-1}
                                 >
                                     Genre
                                 </Badge>

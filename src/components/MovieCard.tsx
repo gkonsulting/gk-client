@@ -39,9 +39,19 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, sortedSeen }) => {
                                                 ? movie.title.slice(0, 30)
                                                 : movie.title}
                                         </Text>
+                                        <Text
+                                            fontWeight="semibold"
+                                            letterSpacing="wide"
+                                            fontSize="xs"
+                                            color="gray.500"
+                                        >
+                                            {movie.releasedAt}
+                                        </Text>
                                     </Box>
+
                                     <Box d="flex" alignItems="baseline">
                                         <Badge
+                                            ml={-1}
                                             rounded="full"
                                             px="3"
                                             variantColor="teal"

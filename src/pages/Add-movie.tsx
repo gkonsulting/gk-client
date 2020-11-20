@@ -11,6 +11,7 @@ import { withApollo } from "../utils/withApollo";
 
 interface MovieType {
     title: string;
+    release_date: string;
     overview: string;
     imageBase: string;
     backdrop_path: string;
@@ -30,6 +31,7 @@ const AddMovie: React.FC<{}> = ({}) => {
                 <Formik
                     initialValues={{
                         title: "",
+                        releasedAt: "",
                         description: "",
                         poster: "",
                         reason: "",
@@ -52,6 +54,7 @@ const AddMovie: React.FC<{}> = ({}) => {
                                 (res: MovieType): void => {
                                     setInputVisibility(!inputVisibility);
                                     values.title = res.title!;
+                                    values.releasedAt = res.release_date.slice(0,4);
                                     values.description = res.overview;
                                     values.poster =
                                         res!.imageBase + res!.backdrop_path;
@@ -71,11 +74,16 @@ const AddMovie: React.FC<{}> = ({}) => {
                             {inputVisibility ? null : (
                                 <>
                                     <InputField
+                                        name="releasedAt"
+                                        placeholder="Release year"
+                                        label="Release year"
+                                    />
+                                    <InputField
                                         name="description"
                                         placeholder="Description"
                                         label="Description"
                                         textarea
-                                        height="100px"
+                                        height="150px"
                                     />
                                     <InputField
                                         name="rating"

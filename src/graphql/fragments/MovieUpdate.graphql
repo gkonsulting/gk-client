@@ -1,6 +1,7 @@
 fragment MovieUpdate on Movie {
     id
     title
+    releasedAt
     rating
     description
     reason

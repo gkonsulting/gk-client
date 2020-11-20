@@ -3,6 +3,7 @@ mutation addMovie($input: MovieInput!) {
         id
         createdAt
         updatedAt
+        releasedAt
         title
         description
         reason

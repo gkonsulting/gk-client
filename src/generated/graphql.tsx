@@ -79,6 +79,7 @@ export type Movie = {
   id: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  releasedAt?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   creatorId: Scalars['Float'];
   creator: User;
@@ -200,7 +201,7 @@ export type MovieInput = {
 
 export type MovieInfoFragment = (
   { __typename?: 'Movie' }
-  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen' | 'userStars' | 'userVotes' | 'starStatus' | 'totalStars'>
+  & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'releasedAt' | 'title' | 'rating' | 'description' | 'reason' | 'poster' | 'points' | 'voteStatus' | 'seen' | 'userStars' | 'userVotes' | 'starStatus' | 'totalStars'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username' | 'email'>
@@ -209,7 +210,7 @@ export type MovieInfoFragment = (
 
 export type MovieUpdateFragment = (
   { __typename?: 'Movie' }
-  & Pick<Movie, 'id' | 'title' | 'rating' | 'description' | 'reason' | 'poster'>
+  & Pick<Movie, 'id' | 'title' | 'releasedAt' | 'rating' | 'description' | 'reason' | 'poster'>
 );
 
 export type RegularErrorFragment = (
@@ -323,7 +324,7 @@ export type AddMovieMutation = (
   { __typename?: 'Mutation' }
   & { addMovie: (
     { __typename?: 'Movie' }
-    & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'reason' | 'poster' | 'rating' | 'creatorId'>
+    & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'releasedAt' | 'title' | 'description' | 'reason' | 'poster' | 'rating' | 'creatorId'>
   ) }
 );
 
@@ -483,6 +484,7 @@ export const MovieInfoFragmentDoc = gql`
   id
   createdAt
   updatedAt
+  releasedAt
   title
   rating
   description
@@ -506,6 +508,7 @@ export const MovieUpdateFragmentDoc = gql`
     fragment MovieUpdate on Movie {
   id
   title
+  releasedAt
   rating
   description
   reason
@@ -762,6 +765,7 @@ export const AddMovieDocument = gql`
     id
     createdAt
     updatedAt
+    releasedAt
     title
     description
     reason

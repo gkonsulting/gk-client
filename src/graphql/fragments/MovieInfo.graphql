@@ -2,6 +2,7 @@ fragment MovieInfo on Movie {
     id
     createdAt
     updatedAt
+    releasedAt
     title
     rating
     description

@@ -34,6 +34,7 @@ export const updateMovie: React.FC<{}> = ({}) => {
                     <Formik
                         initialValues={{
                             title: movie?.title as string,
+                            releasedAt: movie?.releasedAt as string,
                             description: movie?.description as string,
                             poster: movie?.poster as string,
                             reason: movie?.reason as string,
@@ -46,6 +47,7 @@ export const updateMovie: React.FC<{}> = ({}) => {
                                     input: values,
                                 },
                             });
+
                             router.back();
                         }}
                     >
@@ -55,6 +57,11 @@ export const updateMovie: React.FC<{}> = ({}) => {
                                     name="title"
                                     placeholder="Title"
                                     label="Title"
+                                />
+                                <InputField
+                                    name="releasedAt"
+                                    placeholder="Release year"
+                                    label="Release year"
                                 />
                                 <InputField
                                     name="description"

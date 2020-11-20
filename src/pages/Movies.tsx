@@ -20,12 +20,12 @@ const Movies = () => {
     userAuth();
     const [myId, setMyId] = React.useState(0);
     const { data: me, loading: meLoading } = useMeQuery();
+    const [sort, setSort] = React.useState(0);
 
     React.useEffect(() => {
         if (me) setMyId(me!.me!.id);
     }, [me, meLoading]);
 
-    const [sort, setSort] = React.useState(0);
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSort(parseInt(event.target.value));
     };
