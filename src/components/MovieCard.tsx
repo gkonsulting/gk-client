@@ -15,7 +15,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, sortedSeen }) => {
     const { data } = useMeQuery();
 
     return (
-        <Box w="sm" h={720} borderWidth="1px" rounded="lg" overflow="hidden">
+        <Box w="sm" h={750} borderWidth="1px" rounded="lg" overflow="hidden">
             <Flex direction="column" justify="space-between">
                 <Box opacity={movie.seen && sortedSeen !== 3 ? 0.2 : 1}>
                     <NextLink href="/Movie/[id]" as={`/Movie/${movie?.id}`}>
