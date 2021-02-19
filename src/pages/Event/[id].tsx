@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Badge, Flex, Stack, Text, Image } from "@chakra-ui/core";
+import { Box, Flex, Stack, Text, Image } from "@chakra-ui/core";
 import { useGetEventFromUrl } from "../../utils/useGetEventFromUrl";
 import { Navbar } from "../../components/Navbar";
 import { userAuth } from "../../utils/userAuth";
