@@ -8,11 +8,6 @@ const containerStyle = {
     top: "10px",
 };
 
-const center = {
-    lat: 63.446827,
-    lng: 10.421906,
-};
-
 export default function Maps(props: any) {
     let lat = 10;
     let lng = 10;
