@@ -1,0 +1,12 @@
+mutation addEvent($input: EventInput!) {
+    addEvent(input: $input) {
+        id
+        createdAt
+        updatedAt
+        title
+        date
+        description
+        thumbnail
+        creatorId
+    }
+}

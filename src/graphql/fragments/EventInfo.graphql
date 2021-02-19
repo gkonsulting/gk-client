@@ -1,0 +1,16 @@
+fragment EventInfo on Event {
+    id
+    createdAt
+    updatedAt
+    title
+    date
+    address
+    description
+    thumbnail
+    responseStatus
+    creator {
+        id
+        username
+        email
+    }
+}

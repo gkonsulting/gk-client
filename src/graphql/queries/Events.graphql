@@ -1,0 +1,8 @@
+query getEvents($limit: Int!, $cursor: String) {
+    getEvents(cursor: $cursor, limit: $limit) {
+        hasMore
+        events {
+            ...EventInfo
+        }
+    }
+}

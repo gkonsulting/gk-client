@@ -32,7 +32,6 @@ export const InputField: React.FC<InputFieldProps> = ({
             <InputOrTextarea
                 css={{
                     backgroundColor: "rgba(255,255,255,0.06)",
-                    border: "none",
                 }}
                 {...field}
                 {...props}

@@ -20,6 +20,8 @@ export type Query = {
   getPopularMovies: PaginatedMovies;
   getMovie?: Maybe<Movie>;
   getStar: Star;
+  getEvents: PaginatedEvents;
+  getEvent?: Maybe<Event>;
 };
 
 
@@ -56,6 +58,17 @@ export type QueryGetMovieArgs = {
 export type QueryGetStarArgs = {
   userId: Scalars['Int'];
   movieId: Scalars['Int'];
+};
+
+
+export type QueryGetEventsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryGetEventArgs = {
+  id: Scalars['Int'];
 };
 
 export type User = {
@@ -101,6 +114,27 @@ export type Star = {
   value: Scalars['Float'];
 };
 
+export type PaginatedEvents = {
+  __typename?: 'PaginatedEvents';
+  events: Array<Event>;
+  hasMore: Scalars['Boolean'];
+};
+
+export type Event = {
+  __typename?: 'Event';
+  id: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+  date: Scalars['String'];
+  address: Scalars['String'];
+  creatorId: Scalars['Float'];
+  creator: User;
+  description: Scalars['String'];
+  thumbnail: Scalars['String'];
+  responseStatus?: Maybe<Scalars['Int']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
@@ -114,6 +148,10 @@ export type Mutation = {
   updateMovie?: Maybe<Movie>;
   updateSeen?: Maybe<Movie>;
   deleteMovie: Scalars['Boolean'];
+  response: Scalars['Boolean'];
+  addEvent: Event;
+  updateEvent?: Maybe<Event>;
+  deleteEvent: Scalars['Boolean'];
 };
 
 
@@ -172,6 +210,28 @@ export type MutationDeleteMovieArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationResponseArgs = {
+  value: Scalars['Int'];
+  eventId: Scalars['Int'];
+};
+
+
+export type MutationAddEventArgs = {
+  input: EventInput;
+};
+
+
+export type MutationUpdateEventArgs = {
+  input: EventInput;
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteEventArgs = {
+  id: Scalars['Int'];
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -193,11 +253,29 @@ export type UserCredentials = {
 
 export type MovieInput = {
   title: Scalars['String'];
+  releasedAt: Scalars['String'];
   description: Scalars['String'];
   poster: Scalars['String'];
   reason: Scalars['String'];
   rating: Scalars['String'];
 };
+
+export type EventInput = {
+  title: Scalars['String'];
+  date: Scalars['String'];
+  address: Scalars['String'];
+  description: Scalars['String'];
+  thumbnail: Scalars['String'];
+};
+
+export type EventInfoFragment = (
+  { __typename?: 'Event' }
+  & Pick<Event, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'date' | 'address' | 'description' | 'thumbnail' | 'responseStatus'>
+  & { creator: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'email'>
+  ) }
+);
 
 export type MovieInfoFragment = (
   { __typename?: 'Movie' }
@@ -315,6 +393,19 @@ export type VoteMutation = (
   & Pick<Mutation, 'vote'>
 );
 
+export type AddEventMutationVariables = Exact<{
+  input: EventInput;
+}>;
+
+
+export type AddEventMutation = (
+  { __typename?: 'Mutation' }
+  & { addEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'date' | 'description' | 'thumbnail' | 'creatorId'>
+  ) }
+);
+
 export type AddMovieMutationVariables = Exact<{
   input: MovieInput;
 }>;
@@ -326,6 +417,16 @@ export type AddMovieMutation = (
     { __typename?: 'Movie' }
     & Pick<Movie, 'id' | 'createdAt' | 'updatedAt' | 'releasedAt' | 'title' | 'description' | 'reason' | 'poster' | 'rating' | 'creatorId'>
   ) }
+);
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteEvent'>
 );
 
 export type DeleteMovieMutationVariables = Exact<{
@@ -366,6 +467,37 @@ export type UpdateSeenMutation = (
     & Pick<Movie, 'id'>
     & MovieUpdateFragment
   )> }
+);
+
+export type GetEventQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetEventQuery = (
+  { __typename?: 'Query' }
+  & { getEvent?: Maybe<(
+    { __typename?: 'Event' }
+    & EventInfoFragment
+  )> }
+);
+
+export type GetEventsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetEventsQuery = (
+  { __typename?: 'Query' }
+  & { getEvents: (
+    { __typename?: 'PaginatedEvents' }
+    & Pick<PaginatedEvents, 'hasMore'>
+    & { events: Array<(
+      { __typename?: 'Event' }
+      & EventInfoFragment
+    )> }
+  ) }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -479,6 +611,24 @@ export type GetStarQuery = (
   ) }
 );
 
+export const EventInfoFragmentDoc = gql`
+    fragment EventInfo on Event {
+  id
+  createdAt
+  updatedAt
+  title
+  date
+  address
+  description
+  thumbnail
+  responseStatus
+  creator {
+    id
+    username
+    email
+  }
+}
+    `;
 export const MovieInfoFragmentDoc = gql`
     fragment MovieInfo on Movie {
   id
@@ -759,6 +909,45 @@ export function useVoteMutation(baseOptions?: Apollo.MutationHookOptions<VoteMut
 export type VoteMutationHookResult = ReturnType<typeof useVoteMutation>;
 export type VoteMutationResult = Apollo.MutationResult<VoteMutation>;
 export type VoteMutationOptions = Apollo.BaseMutationOptions<VoteMutation, VoteMutationVariables>;
+export const AddEventDocument = gql`
+    mutation addEvent($input: EventInput!) {
+  addEvent(input: $input) {
+    id
+    createdAt
+    updatedAt
+    title
+    date
+    description
+    thumbnail
+    creatorId
+  }
+}
+    `;
+export type AddEventMutationFn = Apollo.MutationFunction<AddEventMutation, AddEventMutationVariables>;
+
+/**
+ * __useAddEventMutation__
+ *
+ * To run a mutation, you first call `useAddEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addEventMutation, { data, loading, error }] = useAddEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddEventMutation(baseOptions?: Apollo.MutationHookOptions<AddEventMutation, AddEventMutationVariables>) {
+        return Apollo.useMutation<AddEventMutation, AddEventMutationVariables>(AddEventDocument, baseOptions);
+      }
+export type AddEventMutationHookResult = ReturnType<typeof useAddEventMutation>;
+export type AddEventMutationResult = Apollo.MutationResult<AddEventMutation>;
+export type AddEventMutationOptions = Apollo.BaseMutationOptions<AddEventMutation, AddEventMutationVariables>;
 export const AddMovieDocument = gql`
     mutation addMovie($input: MovieInput!) {
   addMovie(input: $input) {
@@ -800,6 +989,36 @@ export function useAddMovieMutation(baseOptions?: Apollo.MutationHookOptions<Add
 export type AddMovieMutationHookResult = ReturnType<typeof useAddMovieMutation>;
 export type AddMovieMutationResult = Apollo.MutationResult<AddMovieMutation>;
 export type AddMovieMutationOptions = Apollo.BaseMutationOptions<AddMovieMutation, AddMovieMutationVariables>;
+export const DeleteEventDocument = gql`
+    mutation deleteEvent($id: Int!) {
+  deleteEvent(id: $id)
+}
+    `;
+export type DeleteEventMutationFn = Apollo.MutationFunction<DeleteEventMutation, DeleteEventMutationVariables>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEventMutation, DeleteEventMutationVariables>) {
+        return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, baseOptions);
+      }
+export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMutation>;
+export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
 export const DeleteMovieDocument = gql`
     mutation deleteMovie($id: Int!) {
   deleteMovie(id: $id)
@@ -898,6 +1117,76 @@ export function useUpdateSeenMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateSeenMutationHookResult = ReturnType<typeof useUpdateSeenMutation>;
 export type UpdateSeenMutationResult = Apollo.MutationResult<UpdateSeenMutation>;
 export type UpdateSeenMutationOptions = Apollo.BaseMutationOptions<UpdateSeenMutation, UpdateSeenMutationVariables>;
+export const GetEventDocument = gql`
+    query getEvent($id: Int!) {
+  getEvent(id: $id) {
+    ...EventInfo
+  }
+}
+    ${EventInfoFragmentDoc}`;
+
+/**
+ * __useGetEventQuery__
+ *
+ * To run a query within a React component, call `useGetEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEventQuery(baseOptions: Apollo.QueryHookOptions<GetEventQuery, GetEventQueryVariables>) {
+        return Apollo.useQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, baseOptions);
+      }
+export function useGetEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventQuery, GetEventQueryVariables>) {
+          return Apollo.useLazyQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, baseOptions);
+        }
+export type GetEventQueryHookResult = ReturnType<typeof useGetEventQuery>;
+export type GetEventLazyQueryHookResult = ReturnType<typeof useGetEventLazyQuery>;
+export type GetEventQueryResult = Apollo.QueryResult<GetEventQuery, GetEventQueryVariables>;
+export const GetEventsDocument = gql`
+    query getEvents($limit: Int!, $cursor: String) {
+  getEvents(cursor: $cursor, limit: $limit) {
+    hasMore
+    events {
+      ...EventInfo
+    }
+  }
+}
+    ${EventInfoFragmentDoc}`;
+
+/**
+ * __useGetEventsQuery__
+ *
+ * To run a query within a React component, call `useGetEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetEventsQuery(baseOptions: Apollo.QueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+        return Apollo.useQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, baseOptions);
+      }
+export function useGetEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+          return Apollo.useLazyQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, baseOptions);
+        }
+export type GetEventsQueryHookResult = ReturnType<typeof useGetEventsQuery>;
+export type GetEventsLazyQueryHookResult = ReturnType<typeof useGetEventsLazyQuery>;
+export type GetEventsQueryResult = Apollo.QueryResult<GetEventsQuery, GetEventsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

@@ -1,0 +1,9 @@
+.picker {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-style: solid;
+    height: 40px;
+    border-width: 0.1px;
+    border-color: rgba(255, 255, 255, 0.04);
+    border-radius: 5px;
+    width: 600px;
+}

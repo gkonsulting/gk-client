@@ -1,0 +1,5 @@
+query getEvent($id: Int!) {
+  getEvent(id: $id) {
+    ...EventInfo
+  }
+}
