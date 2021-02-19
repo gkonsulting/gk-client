@@ -16,7 +16,8 @@ const center = {
 export default function Maps(props: any) {
     let lat = 10;
     let lng = 10;
-    Geocode.setApiKey("AIzaSyAy2gqXOlsU3LETsRJRxP3JdtMwcmQpil4");
+    const apiKey = process.env.NEXT_GOOGLE_API_KEY!
+    Geocode.setApiKey(apiKey);
     Geocode.fromAddress(props.address).then(
         (response: any) => {
             console.log(response);
@@ -29,9 +30,8 @@ export default function Maps(props: any) {
             console.error(error);
         }
     );
-
     return (
-        <LoadScript googleMapsApiKey="AIzaSyAy2gqXOlsU3LETsRJRxP3JdtMwcmQpil4">
+        <LoadScript googleMapsApiKey={apiKey}>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={{
