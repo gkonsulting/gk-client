@@ -1,17 +1,17 @@
 import { Box, Image, Flex, Text, Stack, Link } from "@chakra-ui/core";
 import React from "react";
-import { EventInfoFragment, useMeQuery } from "../generated/graphql";
+import { EventInfoFragment } from "../generated/graphql";
 import NextLink from "next/link";
 import Countdown from "react-countdown";
-import { EventOptionsField } from "./EventOptionsField";
+// import { EventOptionsField } from "./EventOptionsField";
 import Maps from "./Maps";
-
+// import { ResponseField } from "./ResponseField";
 interface EventCardProps {
     event: EventInfoFragment;
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ event }) => {
-    const { data } = useMeQuery();
+    // const { data } = useMeQuery();
     const today = new Date();
     const date1 = Date.UTC(
         today.getFullYear(),
@@ -32,7 +32,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
     const Completionist = () => <Text>The event is rolling</Text>;
     return (
-        <Box w="xl" h={900} borderWidth="1px" rounded="lg" overflow="hidden">
+        <Box w="sm" h={900} borderWidth="1px" rounded="lg" overflow="hidden">
             <Flex direction="column" justify="space-between">
                 <Box>
                     <NextLink href="/Event/[id]" as={`/Event/${event?.id}`}>
@@ -92,11 +92,12 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
                             </Box>
                         </Link>
                     </NextLink>
-                    <Flex justify="flex-end" mt={2}>
+                    {/* <Flex justify="space-between" mt={2}>
+                        <ResponseField event={event} />
                         {data?.me?.id !== event?.creator.id ? null : (
                             <EventOptionsField event={event} />
                         )}
-                    </Flex>
+                    </Flex> */}
                     <Maps address={event.address} />
                 </Box>
             </Flex>

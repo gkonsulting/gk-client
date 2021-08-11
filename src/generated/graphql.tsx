@@ -22,6 +22,8 @@ export type Query = {
   getStar: Star;
   getEvents: PaginatedEvents;
   getEvent?: Maybe<Event>;
+  getResponses: Responses;
+  getAllResponses: Scalars['Int'];
 };
 
 
@@ -69,6 +71,16 @@ export type QueryGetEventsArgs = {
 
 export type QueryGetEventArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryGetResponsesArgs = {
+  eventId: Scalars['Int'];
+};
+
+
+export type QueryGetAllResponsesArgs = {
+  eventId: Scalars['Int'];
 };
 
 export type User = {
@@ -133,6 +145,12 @@ export type Event = {
   description: Scalars['String'];
   thumbnail: Scalars['String'];
   responseStatus?: Maybe<Scalars['Int']>;
+};
+
+export type Responses = {
+  __typename?: 'Responses';
+  accept: Scalars['Int'];
+  decline: Scalars['Int'];
 };
 
 export type Mutation = {
@@ -371,6 +389,17 @@ export type RegisterMutation = (
   ) }
 );
 
+export type ResponseMutationVariables = Exact<{
+  value: Scalars['Int'];
+  eventId: Scalars['Int'];
+}>;
+
+
+export type ResponseMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'response'>
+);
+
 export type SetStarsMutationVariables = Exact<{
   value: Scalars['Int'];
   movieId: Scalars['Int'];
@@ -594,6 +623,19 @@ export type GetPopularMoviesQuery = (
       { __typename?: 'Movie' }
       & MovieInfoFragment
     )> }
+  ) }
+);
+
+export type GetResponsesQueryVariables = Exact<{
+  eventId: Scalars['Int'];
+}>;
+
+
+export type GetResponsesQuery = (
+  { __typename?: 'Query' }
+  & { getResponses: (
+    { __typename?: 'Responses' }
+    & Pick<Responses, 'accept' | 'decline'>
   ) }
 );
 
@@ -847,6 +889,37 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const ResponseDocument = gql`
+    mutation response($value: Int!, $eventId: Int!) {
+  response(value: $value, eventId: $eventId)
+}
+    `;
+export type ResponseMutationFn = Apollo.MutationFunction<ResponseMutation, ResponseMutationVariables>;
+
+/**
+ * __useResponseMutation__
+ *
+ * To run a mutation, you first call `useResponseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResponseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [responseMutation, { data, loading, error }] = useResponseMutation({
+ *   variables: {
+ *      value: // value for 'value'
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useResponseMutation(baseOptions?: Apollo.MutationHookOptions<ResponseMutation, ResponseMutationVariables>) {
+        return Apollo.useMutation<ResponseMutation, ResponseMutationVariables>(ResponseDocument, baseOptions);
+      }
+export type ResponseMutationHookResult = ReturnType<typeof useResponseMutation>;
+export type ResponseMutationResult = Apollo.MutationResult<ResponseMutation>;
+export type ResponseMutationOptions = Apollo.BaseMutationOptions<ResponseMutation, ResponseMutationVariables>;
 export const SetStarsDocument = gql`
     mutation setStars($value: Int!, $movieId: Int!) {
   setStars(value: $value, movieId: $movieId)
@@ -1401,6 +1474,40 @@ export function useGetPopularMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetPopularMoviesQueryHookResult = ReturnType<typeof useGetPopularMoviesQuery>;
 export type GetPopularMoviesLazyQueryHookResult = ReturnType<typeof useGetPopularMoviesLazyQuery>;
 export type GetPopularMoviesQueryResult = Apollo.QueryResult<GetPopularMoviesQuery, GetPopularMoviesQueryVariables>;
+export const GetResponsesDocument = gql`
+    query getResponses($eventId: Int!) {
+  getResponses(eventId: $eventId) {
+    accept
+    decline
+  }
+}
+    `;
+
+/**
+ * __useGetResponsesQuery__
+ *
+ * To run a query within a React component, call `useGetResponsesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetResponsesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetResponsesQuery({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useGetResponsesQuery(baseOptions: Apollo.QueryHookOptions<GetResponsesQuery, GetResponsesQueryVariables>) {
+        return Apollo.useQuery<GetResponsesQuery, GetResponsesQueryVariables>(GetResponsesDocument, baseOptions);
+      }
+export function useGetResponsesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetResponsesQuery, GetResponsesQueryVariables>) {
+          return Apollo.useLazyQuery<GetResponsesQuery, GetResponsesQueryVariables>(GetResponsesDocument, baseOptions);
+        }
+export type GetResponsesQueryHookResult = ReturnType<typeof useGetResponsesQuery>;
+export type GetResponsesLazyQueryHookResult = ReturnType<typeof useGetResponsesLazyQuery>;
+export type GetResponsesQueryResult = Apollo.QueryResult<GetResponsesQuery, GetResponsesQueryVariables>;
 export const GetStarDocument = gql`
     query getStar($movieId: Int!, $userId: Int!) {
   getStar(movieId: $movieId, userId: $userId) {

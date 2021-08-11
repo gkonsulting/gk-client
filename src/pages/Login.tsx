@@ -36,6 +36,7 @@ const Login: React.FC<{}> = ({}) => {
                                 cache.evict({ fieldName: "getMovies" });
                             },
                         });
+
                         if (res.data?.login.errors)
                             setErrors(toErrorMap(res.data.login.errors));
                         else if (res.data?.login.user) {

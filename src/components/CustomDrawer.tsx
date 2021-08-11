@@ -97,6 +97,16 @@ export const CustomDrawer: React.FC<{}> = () => {
                         <Link>Movies</Link>
                     </NextLink>
                 </Box>
+                <Box
+                    as="text"
+                    textAlign="center"
+                    fontSize="4xl"
+                    mt={{ base: 4, md: 0 }}
+                >
+                    <NextLink href="/Events">
+                        <Link>Events</Link>
+                    </NextLink>
+                </Box>
             </Stack>
         );
         bodyUser = (

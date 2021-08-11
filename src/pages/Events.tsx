@@ -3,18 +3,17 @@ import { Navbar } from "../components/Navbar";
 import {
     EventInfoFragment,
     useGetEventsQuery,
+    useMeQuery,
 } from "../generated/graphql";
 import { Button, Flex, Link, Text } from "@chakra-ui/core";
 import React from "react";
 import { withApollo } from "../utils/withApollo";
-import { userAuth } from "../utils/userAuth";
 import Loader from "react-loader-spinner";
 import NextLink from "next/link";
 import { EventCard } from "../components/EventCard";
 
 const Movies = () => {
-    userAuth();
-
+    const { data: me } = useMeQuery();
     const { data, loading, variables, fetchMore } = useGetEventsQuery({
         variables: {
             limit: 3,
@@ -36,13 +35,15 @@ const Movies = () => {
                         Events
                     </Text>
                     <Flex>
-                        <NextLink href="/Add-event">
-                            <Link _hover={{ textDecoration: "none" }}>
-                                <Button variantColor="teal" border="1px">
-                                    Add event
-                                </Button>
-                            </Link>
-                        </NextLink>
+                        {me?.me?.id ? (
+                            <NextLink href="/Add-event">
+                                <Link _hover={{ textDecoration: "none" }}>
+                                    <Button variantColor="teal" border="1px">
+                                        Add event
+                                    </Button>
+                                </Link>
+                            </NextLink>
+                        ) : null}
                     </Flex>
                 </Flex>
                 {!data && loading ? (

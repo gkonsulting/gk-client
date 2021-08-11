@@ -10,6 +10,7 @@ import { userAuth } from "../utils/userAuth";
 import { withApollo } from "../utils/withApollo";
 import DatePicker from "react-datepicker";
 import styles from "../components/Datepicker.module.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddEvent: React.FC<{}> = ({}) => {
     userAuth(); // Sjekker om bruker er logget inn, hvis ikke navigeres brukeren til login

@@ -1,0 +1,6 @@
+query getResponses($eventId: Int!) {
+    getResponses(eventId: $eventId){
+        accept
+        decline
+    }
+}

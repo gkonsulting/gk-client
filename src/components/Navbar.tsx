@@ -30,6 +30,11 @@ export const Navbar: React.FC<{}> = (props) => {
                         <Link>Vlogs</Link>
                     </NextLink>
                 </Box>
+                <Box as="text" fontSize="xl" mt={{ base: 4, md: 0 }} mr={5}>
+                    <NextLink href="/Events">
+                        <Link>Events</Link>
+                    </NextLink>
+                </Box>
             </>
         );
         bodyUser = (

@@ -1,0 +1,3 @@
+mutation response($value: Int!, $eventId: Int!) {
+    response(value: $value, eventId: $eventId)
+}
